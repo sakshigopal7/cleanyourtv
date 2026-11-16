@@ -1,6 +1,6 @@
 {
   "count": 9,
-  "generated_at": "2026-11-16T18:53:00+08:00",
+  "generated_at": "2026-11-16T19:48:00+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
@@ -16,6 +16,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg",
       "first_seen": "2026-11-16",
       "imdb_id": null,
       "language": "ta",
@@ -41,6 +43,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/25aB8RXP4mfQLFRSuEEhk0d0sTC.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/25aB8RXP4mfQLFRSuEEhk0d0sTC.jpg",
       "first_seen": "2026-11-16",
       "imdb_id": "tt15095848",
       "language": "en",
@@ -66,6 +70,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/yG1wltFmkX5c5ocACKfpX0tp3SY.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/yG1wltFmkX5c5ocACKfpX0tp3SY.jpg",
       "first_seen": "2026-11-15",
       "imdb_id": null,
       "language": "en",
@@ -100,6 +106,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/69XNjGvcopgPz9Hte0ny1Swk2vW.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/69XNjGvcopgPz9Hte0ny1Swk2vW.jpg",
       "first_seen": "2026-11-16",
       "imdb_id": null,
       "language": "de",
@@ -125,6 +133,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/8mdZuwDtyhidCrb7ffsfl0FLeoN.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/8mdZuwDtyhidCrb7ffsfl0FLeoN.jpg",
       "first_seen": "2026-11-15",
       "imdb_id": "tt41593493",
       "language": "en",
@@ -150,6 +160,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/uyL0MH8gtDlChQKpfpkVoUP41VY.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/uyL0MH8gtDlChQKpfpkVoUP41VY.jpg",
       "first_seen": "2026-11-14",
       "imdb_id": "tt27995113",
       "language": "en",
@@ -175,6 +187,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/wlJmF47IHYwzVpG1qA6aYA0UHj.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/wlJmF47IHYwzVpG1qA6aYA0UHj.jpg",
       "first_seen": "2026-11-14",
       "imdb_id": null,
       "language": "ta",
@@ -209,6 +223,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/rbwmf04kpX1o3zbbOS6Y7woF2Ku.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/rbwmf04kpX1o3zbbOS6Y7woF2Ku.jpg",
       "first_seen": "2026-11-16",
       "imdb_id": null,
       "language": "hi",
@@ -234,6 +250,8 @@
           "vpn_label": null
         }
       ],
+      "backdrop_path": "/fzlch1j1aVGJKI0GB6IdgbG5gpJ.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/fzlch1j1aVGJKI0GB6IdgbG5gpJ.jpg",
       "first_seen": "2026-11-13",
       "imdb_id": null,
       "language": "fr",
