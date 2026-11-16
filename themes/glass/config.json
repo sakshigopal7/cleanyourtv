@@ -1,19 +1,39 @@
 {
   "dock_apps": [
-    "com.netflix.ninja",
     "com.google.android.youtube.tv",
+    "com.netflix.ninja",
     "com.amazon.amazonvideo.livingroom",
-    "com.disney.disneyplus",
-    "com.wbd.stream",
     "com.apple.atve.androidtv.appletv"
   ],
+  "dock_title": false,
   "background_color": "#090C14",
   "wallpaper": true,
   "cinematic_home": true,
   "dock_glass": true,
   "icon_only_buttons": true,
   "app_glow": true,
-  "glow_style": "horizon",
+  "glow_style": "radial",
   "focus_overshoot": false,
-  "advanced_effects": true
+  "advanced_effects": true,
+  "settings_key_keycodes": [
+    83,
+    4077
+  ],
+  "input_key_keycodes": [
+    178,
+    4514
+  ],
+  "app_keys": [
+    "4062:com.netflix.ninja",
+    "4099:com.amazon.amazonvideo.livingroom",
+    "190:com.google.android.youtube.tv",
+    "4065:com.google.android.youtube.tv",
+    "83:settings",
+    "4077:settings",
+    "178:inputs",
+    "4514:inputs"
+  ],
+  "cinematic_art": 0,
+  "wallpaper_dim": 20,
+  "ambient_glow": false
 }

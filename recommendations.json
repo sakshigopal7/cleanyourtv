@@ -1,0 +1,251 @@
+{
+  "count": 9,
+  "generated_at": "2026-11-16T18:53:00+08:00",
+  "source": "reviewer-collective",
+  "source_group_id": "1744693935673270",
+  "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83064751?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixpatrol_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-16",
+      "imdb_id": null,
+      "language": "ta",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4063544090454898/",
+      "poster_path": "/7wHBYs8HHmTGe4nXLpMEAoDSK2o.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/7wHBYs8HHmTGe4nXLpMEAoDSK2o.jpg",
+      "title": "Baththa",
+      "tmdb_id": 1515692,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Apple TV",
+          "provider_url": "https://tv.apple.com/us/movie/being-heumann/umc.cmc.5gf63v7zj97yiozkpj26lpy55",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "apple_tv_official_link",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-16",
+      "imdb_id": "tt15095848",
+      "language": "en",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4062439543898686/",
+      "poster_path": "/ouGH1PS0xjDyfTQOhppn7QzJqQZ.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/ouGH1PS0xjDyfTQOhppn7QzJqQZ.jpg",
+      "title": "Being Heumann",
+      "tmdb_id": 1050981,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81437051?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "newonnetflix_info",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-15",
+      "imdb_id": null,
+      "language": "en",
+      "last_seen": "2026-11-16",
+      "media_type": "tv",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4062350660574241/",
+      "poster_path": "/tw3tzfXaSpmUZIB8ZNqNEGzMBCy.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/tw3tzfXaSpmUZIB8ZNqNEGzMBCy.jpg",
+      "title": "The Gentlemen",
+      "tmdb_id": 236235,
+      "tmdb_type": "tv",
+      "year": 2024
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81720671?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81720671?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-16",
+      "imdb_id": null,
+      "language": "de",
+      "last_seen": "2026-11-16",
+      "media_type": "tv",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4062280547247919/",
+      "poster_path": "/dkLTaC44QqnCAgzCf180TxMmmG5.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/dkLTaC44QqnCAgzCf180TxMmmG5.jpg",
+      "title": "Die Falle",
+      "tmdb_id": 283371,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83018004?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "metacritic_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-15",
+      "imdb_id": "tt41593493",
+      "language": "en",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4062005240608783/",
+      "poster_path": "/ziyEHM0P1TgvhVXIqqguoMAD0TJ.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/ziyEHM0P1TgvhVXIqqguoMAD0TJ.jpg",
+      "title": "Avedon",
+      "tmdb_id": 1666787,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81682935?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixpatrol_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-14",
+      "imdb_id": "tt27995113",
+      "language": "en",
+      "last_seen": "2026-11-16",
+      "media_type": "tv",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059952704147370/",
+      "poster_path": "/srlsyEfIBz2MNWBndVc3opOaNGS.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/srlsyEfIBz2MNWBndVc3opOaNGS.jpg",
+      "title": "Black Doves",
+      "tmdb_id": 225385,
+      "tmdb_type": "tv",
+      "year": 2024
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83238479?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_trailer_description",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-14",
+      "imdb_id": null,
+      "language": "ta",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059343557541618/",
+      "poster_path": "/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
+      "title": "Dorothy",
+      "tmdb_id": 1578079,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82083479?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_india_trailer_description",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82083479?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_india_trailer_description",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-16",
+      "imdb_id": null,
+      "language": "hi",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4060038020805505/",
+      "poster_path": "/eAsR8oCZGCOqaxDVt0c0WrRFjrn.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/eAsR8oCZGCOqaxDVt0c0WrRFjrn.jpg",
+      "title": "Daayra",
+      "tmdb_id": 1215889,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81955038?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "newonnetflix_info",
+          "vpn_label": null
+        }
+      ],
+      "first_seen": "2026-11-13",
+      "imdb_id": null,
+      "language": "fr",
+      "last_seen": "2026-11-16",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4058655460943761/",
+      "poster_path": "/5gLUXJZzyL1GQAAGdfnz1KEH8gj.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/5gLUXJZzyL1GQAAGdfnz1KEH8gj.jpg",
+      "title": "The Good Lawyer",
+      "tmdb_id": 1616419,
+      "tmdb_type": "movie",
+      "year": 2026
+    }
+  ]
+}

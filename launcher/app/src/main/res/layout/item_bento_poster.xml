@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="115dp"
+    android:layout_height="172dp"
+    android:layout_marginEnd="14dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@drawable/bento_poster_card_bg">
+
+    <ImageView
+        android:id="@+id/posterImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:importantForAccessibility="no" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bento_poster_scrim" />
+
+    <TextView
+        android:id="@+id/posterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="8dp"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        android:fontFamily="@string/font_medium"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:includeFontPadding="false" />
+
+    <TextView
+        android:id="@+id/posterBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:background="@drawable/bento_badge_bg"
+        android:textColor="#E6FFFFFF"
+        android:textSize="9sp"
+        android:fontFamily="@string/font_medium"
+        android:letterSpacing="0.04"
+        android:visibility="gone" />
+</FrameLayout>

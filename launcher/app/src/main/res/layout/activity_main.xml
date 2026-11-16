@@ -168,6 +168,7 @@
 
         <!-- No clipping down to the pills: with advanced effects a focused pill scales up past its row. -->
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
@@ -381,6 +382,139 @@
                     android:nextFocusDown="@+id/grid" />
             </LinearLayout>
         </RelativeLayout>
+
+        <!-- Bento Dashboard: greeting/weather card + For you / My List poster rows.
+             Poster cards 115x172dp, about 28 percent larger than Slice 2 90x135; dock below is
+             shrunk by using 6 columns, so the poster rows dominate the screen. -->
+        <LinearLayout
+            android:id="@+id/bentoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_marginBottom="10dp">
+            <FrameLayout
+                android:id="@+id/bentoGreetingCard"
+                android:layout_width="300dp"
+                android:layout_height="382dp"
+                android:layout_marginEnd="20dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="@drawable/bento_card_bg"
+                android:padding="22dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/bentoGreeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Good evening, Sakshi and Ayu"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="12sp"
+                        android:fontFamily="@string/font_medium"
+                        android:letterSpacing="0.02"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+                    <TextClock
+                        android:id="@+id/bentoClock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:format12Hour="h:mm a"
+                        android:format24Hour="HH:mm"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="38sp"
+                        android:fontFamily="@string/font_light"
+                        android:letterSpacing="-0.02"
+                        android:fontFeatureSettings="tnum"
+                        android:includeFontPadding="false" />
+                    <TextClock
+                        android:id="@+id/bentoDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:format12Hour="EEEE, d MMMM"
+                        android:format24Hour="EEEE, d MMMM"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="13sp"
+                        android:fontFamily="@string/font_regular"
+                        android:letterSpacing="0.04"
+                        android:singleLine="true" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="#20FFFFFF" />
+                    <TextView
+                        android:id="@+id/bentoWeather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Singapore"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="14sp"
+                        android:fontFamily="@string/font_regular"
+                        android:letterSpacing="0.04"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/bentoRowsContainer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+                <TextView
+                    android:id="@+id/forYouTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For you · Reviewer Collective · Updated today"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="12sp"
+                    android:fontFamily="@string/font_medium"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="4dp"
+                    android:singleLine="true" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/forYouRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="172dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:descendantFocusability="afterDescendants" />
+                <TextView
+                    android:id="@+id/myListTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My List"
+                    android:textColor="#B3FFFFFF"
+                    android:textSize="12sp"
+                    android:fontFamily="@string/font_medium"
+                    android:letterSpacing="0.06"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp"
+                    android:singleLine="true" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myListRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="172dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:descendantFocusability="afterDescendants" />
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- The wrapper clips at the grid's edge; the grid itself must not clip so scaled tiles can overflow their cells. -->
         <FrameLayout

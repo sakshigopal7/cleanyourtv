@@ -68,6 +68,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.TextClock;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -717,7 +718,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             // Keep the hero below the header when the library is enabled on a short screen,
             // even when the theme requests an extra visible row below the dock.
             int shelfClearance = cfg.appLibrary ? hero.getMeasuredHeight() + (int) (40 * density) : 0;
-            int want = Math.max(shelfClearance, h - dockRow - gridRows - (int) (AppAdapter.BOTTOM_ROOM_DP * density));
+            int want = Math.max(0, Math.max(shelfClearance, h - dockRow - gridRows - (int) (AppAdapter.BOTTOM_ROOM_DP * density)));
             // Where the rows cannot fit even at the smallest tile (3 rows with the title on), the title keeps its
             // room above the dock and the last rows run off the bottom instead of the title drawing over the clock.
             if (MainActivity.this.dockRow && cfg.dockTitle && rowsBelowDock > 0) want = Math.max(want, (int) (AppAdapter.TITLE_ROOM_DP * density));
@@ -969,6 +970,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                     .removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
                     .build(), vpnCallback);
         }
+        initBentoDashboard(cfg);
+
         // Not after recreate(): the launch intent survives it and would open the settings again.
         if (savedInstanceState == null && !openLauncherSettingsIfAsked(getIntent()) && !openLibraryIfAsked(getIntent())) {
             openInputsIfAsked(getIntent());
@@ -2251,6 +2254,273 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             ambient.setAlpha(0f);
             heroArt.setAlpha(0f);
         }
+    }
+
+    // ---------- Bento Dashboard (Reviewer Collective + My List) ----------
+
+    private View bentoContainer;
+    private View bentoGreetingCard;
+    private TextView bentoGreeting;
+    private TextClock bentoClock;
+    private TextClock bentoDate;
+    private TextView bentoWeather;
+    private RecyclerView forYouRecycler;
+    private RecyclerView myListRecycler;
+    private BentoPosterAdapter forYouAdapter;
+    private BentoPosterAdapter myListAdapter;
+
+    private void initBentoDashboard(Config cfg) {
+        bentoContainer = findViewById(R.id.bentoContainer);
+        bentoGreetingCard = findViewById(R.id.bentoGreetingCard);
+        bentoGreeting = findViewById(R.id.bentoGreeting);
+        bentoClock = findViewById(R.id.bentoClock);
+        bentoDate = findViewById(R.id.bentoDate);
+        bentoWeather = findViewById(R.id.bentoWeather);
+        forYouRecycler = findViewById(R.id.forYouRecycler);
+        myListRecycler = findViewById(R.id.myListRecycler);
+
+        if (bentoGreeting != null) {
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            String timeOfDay;
+            if (hour >= 5 && hour < 12) timeOfDay = "Good morning";
+            else if (hour >= 12 && hour < 17) timeOfDay = "Good afternoon";
+            else timeOfDay = "Good evening";
+            String name = (greetingName != null && !greetingName.isEmpty()) ? greetingName : "Sakshi and Ayu";
+            bentoGreeting.setText(timeOfDay + ", " + name);
+        }
+        if (bentoWeather != null) {
+            String last = BentoWeather.lastGood(this);
+            if (last != null) bentoWeather.setText(last);
+            BentoWeather.refresh(this, text -> {
+                if (bentoWeather != null) bentoWeather.setText(text);
+            });
+        }
+
+        if (forYouRecycler != null) {
+            forYouRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+            forYouAdapter = new BentoPosterAdapter();
+            forYouRecycler.setAdapter(forYouAdapter);
+            forYouAdapter.setOnPosterClickListener((position, title, v) -> {
+                if (title.isSkippedButton) showRestoreSkippedDialog();
+                else BentoStore.playTitle(MainActivity.this, title);
+            });
+            forYouAdapter.setOnPosterLongClickListener((position, title, v) -> {
+                if (title.isSkippedButton) showRestoreSkippedDialog();
+                else showForYouMenu(position, title);
+            });
+        }
+
+        if (myListRecycler != null) {
+            myListRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+            myListAdapter = new BentoPosterAdapter();
+            myListRecycler.setAdapter(myListAdapter);
+            myListAdapter.setOnPosterClickListener((position, title, v) -> BentoStore.playTitle(MainActivity.this, title));
+            myListAdapter.setOnPosterLongClickListener((position, title, v) -> showMyListMenu(position, title));
+        }
+
+        loadBentoData();
+
+        if (bentoGreetingCard != null) {
+            bentoGreetingCard.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) {
+                    hideGlass();
+                    v.animate().scaleX(1.02f).scaleY(1.02f).setDuration(140).start();
+                } else {
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(140).start();
+                }
+            });
+            bentoGreetingCard.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null) {
+                        View target = forYouRecycler.getLayoutManager().findViewByPosition(0);
+                        if (target != null) target.requestFocus();
+                        else forYouRecycler.requestFocus();
+                    }
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    focusTile(0);
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        if (forYouAdapter != null) {
+            forYouAdapter.setOnPosterKeyListener((position, title, keyCode, event, v) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                    if (position == 0 && bentoGreetingCard != null) {
+                        bentoGreetingCard.requestFocus();
+                        return true;
+                    }
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    if (myListRecycler != null && myListRecycler.getLayoutManager() != null && myListAdapter != null && myListAdapter.getItemCount() > 0) {
+                        int targetPos = Math.min(position, myListAdapter.getItemCount() - 1);
+                        View target = myListRecycler.getLayoutManager().findViewByPosition(targetPos);
+                        if (target != null) target.requestFocus();
+                        else myListRecycler.requestFocus();
+                    } else {
+                        focusTile(Math.min(position, COLUMNS - 1));
+                    }
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    if (position == forYouAdapter.getItemCount() - 1) return true;
+                }
+                return false;
+            });
+        }
+
+        if (myListAdapter != null) {
+            myListAdapter.setOnPosterKeyListener((position, title, keyCode, event, v) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                    if (position == 0 && bentoGreetingCard != null) {
+                        bentoGreetingCard.requestFocus();
+                        return true;
+                    }
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null && forYouAdapter != null && forYouAdapter.getItemCount() > 0) {
+                        int targetPos = Math.min(position, forYouAdapter.getItemCount() - 1);
+                        View target = forYouRecycler.getLayoutManager().findViewByPosition(targetPos);
+                        if (target != null) target.requestFocus();
+                        else forYouRecycler.requestFocus();
+                    } else if (bentoGreetingCard != null) {
+                        bentoGreetingCard.requestFocus();
+                    }
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    focusTile(Math.min(position, COLUMNS - 1));
+                    return true;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    if (position == myListAdapter.getItemCount() - 1) return true;
+                }
+                return false;
+            });
+        }
+    }
+
+    private void loadBentoData() {
+        if (forYouAdapter != null) forYouAdapter.setItems(BentoStore.loadRecommendations(this));
+        if (myListAdapter != null) myListAdapter.setItems(BentoStore.loadMyList(this));
+    }
+
+    private void showForYouMenu(int position, BentoTitle title) {
+        String subtitle = title.provider != null ? title.provider : "";
+        if (title.year > 0) subtitle = subtitle.isEmpty() ? String.valueOf(title.year) : subtitle + " · " + title.year;
+        showBentoMenu(title.title, subtitle,
+                new String[]{"Add to My List", "Watch now", "Details", "Skip this title"},
+                new Runnable[]{
+                        () -> {
+                            BentoStore.addToMyList(MainActivity.this, title);
+                            loadBentoData();
+                            Toast.makeText(MainActivity.this, "Added to My List", Toast.LENGTH_SHORT).show();
+                        },
+                        () -> BentoStore.playTitle(MainActivity.this, title),
+                        () -> showBentoDetails(title),
+                        () -> {
+                            BentoStore.skipTitle(MainActivity.this, title);
+                            loadBentoData();
+                            Toast.makeText(MainActivity.this, "Skipped", Toast.LENGTH_SHORT).show();
+                        }
+                });
+    }
+
+    private void showMyListMenu(int position, BentoTitle title) {
+        String subtitle = title.provider != null ? title.provider : "";
+        if (title.year > 0) subtitle = subtitle.isEmpty() ? String.valueOf(title.year) : subtitle + " · " + title.year;
+        showBentoMenu(title.title, subtitle,
+                new String[]{"Watch now", "Remove from My List", "Details"},
+                new Runnable[]{
+                        () -> BentoStore.playTitle(MainActivity.this, title),
+                        () -> {
+                            BentoStore.removeFromMyList(MainActivity.this, title);
+                            loadBentoData();
+                            Toast.makeText(MainActivity.this, "Removed from My List", Toast.LENGTH_SHORT).show();
+                        },
+                        () -> showBentoDetails(title)
+                });
+    }
+
+    private void showRestoreSkippedDialog() {
+        showBentoMenu("Skipped titles", "Restore them to the For you row",
+                new String[]{"Restore skipped titles", "Keep skipping"},
+                new Runnable[]{
+                        () -> {
+                            BentoStore.restoreSkipped(MainActivity.this);
+                            loadBentoData();
+                            Toast.makeText(MainActivity.this, "Skipped titles restored", Toast.LENGTH_SHORT).show();
+                        },
+                        () -> {}
+                });
+    }
+
+    private void showBentoDetails(BentoTitle title) {
+        StringBuilder sb = new StringBuilder();
+        if (title.year > 0) sb.append(title.year);
+        if (title.language != null && !title.language.isEmpty()) {
+            if (sb.length() > 0) sb.append(" · ");
+            sb.append(title.language);
+        }
+        if (title.provider != null) {
+            if (sb.length() > 0) sb.append(" · ");
+            sb.append(title.provider);
+        }
+        if (title.vpnLabel != null) {
+            if (sb.length() > 0) sb.append(" · ");
+            sb.append(title.vpnLabel);
+        }
+        showBentoMenu(title.title, sb.toString(),
+                new String[]{"Watch now", "Close"},
+                new Runnable[]{
+                        () -> BentoStore.playTitle(MainActivity.this, title),
+                        () -> {}
+                });
+    }
+
+    private void showBentoMenu(String titleText, String subtitleText, String[] labels, Runnable[] actions) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bento_menu);
+        android.view.Window w = dialog.getWindow();
+        if (w != null) {
+            w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            w.setDimAmount(0.6f);
+        }
+        TextView title = dialog.findViewById(R.id.menuTitle);
+        TextView subtitle = dialog.findViewById(R.id.menuSubtitle);
+        if (title != null) title.setText(titleText);
+        if (subtitle != null) subtitle.setText(subtitleText);
+        TextView[] views = {
+                dialog.findViewById(R.id.menuItem1),
+                dialog.findViewById(R.id.menuItem2),
+                dialog.findViewById(R.id.menuItem3),
+                dialog.findViewById(R.id.menuItem4)
+        };
+        for (int i = 0; i < views.length; i++) {
+            if (views[i] == null) continue;
+            if (i < labels.length && labels[i] != null) {
+                views[i].setText(labels[i]);
+                views[i].setVisibility(View.VISIBLE);
+                final int idx = i;
+                views[i].setOnClickListener(v -> {
+                    android.util.Log.d("TvHome.Bento", "menu click idx=" + idx + " label=" + labels[idx]);
+                    dialog.dismiss();
+                    if (idx < actions.length && actions[idx] != null) actions[idx].run();
+                });
+            } else {
+                views[i].setVisibility(View.GONE);
+            }
+        }
+        dialog.setOnDismissListener(d -> loadBentoData());
+        dialog.show();
+        if (views.length > 0 && views[0] != null) views[0].requestFocus();
     }
 
     private void hideGlass() {
