@@ -52,6 +52,7 @@ public final class BentoStore {
                     BentoTitle t = BentoTitle.fromJson(item, false);
                     if (t == null) continue;
                     if (skipped.contains(t.identityKey())) continue;
+                    if (myList.contains(t.identityKey())) continue; // in My List: shown there, never twice
                     if (!t.isPlayable()) continue; // never ship a card that cannot play
                     out.add(t.withInMyList(myList.contains(t.identityKey())));
                 }
@@ -61,6 +62,52 @@ public final class BentoStore {
         int skippedCount = skipped.size();
         if (skippedCount > 0) out.add(BentoTitle.createSkippedButton(skippedCount));
         return out;
+    }
+
+    // ---------- In cinemas ----------
+
+    public static final String FILE_CINEMA = "cinema.json";
+    /** A verified cinema list stays live for 7 days ("this week"); older than that, or
+     * empty, the section hides rather than showing a stale title. At most two titles. */
+    static final int CINEMA_FRESH_DAYS = 7;
+    static final int CINEMA_MAX = 2;
+
+    /** Verified RC cinema-only titles screening in Singapore (with their TMDB details
+     * for the details dialog), or empty when none is verified. */
+    public static List<CinemaTitle> loadCinema(Context ctx) {
+        return loadCinemaFromJson(readInternalOrAsset(ctx, FILE_CINEMA), java.time.LocalDate.now());
+    }
+
+    static List<CinemaTitle> loadCinemaFromJson(String json, java.time.LocalDate today) {
+        List<CinemaTitle> out = new ArrayList<>();
+        if (json == null || json.trim().isEmpty() || today == null) return out;
+        try {
+            JSONObject root = new JSONObject(json);
+            String verifiedOn = root.optString("verified_on", null);
+            if (verifiedOn == null || verifiedOn.isEmpty()) return out;
+            java.time.LocalDate verified = java.time.LocalDate.parse(verifiedOn);
+            long age = java.time.temporal.ChronoUnit.DAYS.between(verified, today);
+            if (age < 0 || age > CINEMA_FRESH_DAYS) return out;
+            JSONArray titles = root.optJSONArray("titles");
+            if (titles == null) return out;
+            for (int i = 0; i < titles.length() && out.size() < CINEMA_MAX; i++) {
+                CinemaTitle ct = CinemaTitle.fromJson(titles.optJSONObject(i));
+                if (ct != null) out.add(ct);
+            }
+        } catch (Exception ignored) {
+        }
+        return out;
+    }
+
+    /** generated_at of the feed currently served (cached copy or bundled seed), or null. */
+    public static String feedGeneratedAt(Context ctx) {
+        String json = readInternalOrAsset(ctx, FILE_RECOMMENDATIONS);
+        if (json == null) return null;
+        try {
+            return new JSONObject(json).optString("generated_at", null);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     // ---------- My List ----------

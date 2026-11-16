@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cinema title details dialog: title, meta line (year, language, runtime, rating),
+     synopsis from TMDB, Close button. Same glass card style as the poster menu. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bento_card_bg"
+    android:padding="24dp">
+    <LinearLayout
+        android:layout_width="440dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/detailsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFFFF"
+            android:textSize="18sp"
+            android:fontFamily="@string/font_medium"
+            android:maxLines="2"
+            android:ellipsize="end" />
+        <TextView
+            android:id="@+id/detailsMeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_regular"
+            android:singleLine="true"
+            android:ellipsize="end" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:maxHeight="320dp"
+            android:scrollbars="none">
+            <TextView
+                android:id="@+id/detailsOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#E6FFFFFF"
+                android:textSize="14sp"
+                android:fontFamily="@string/font_regular"
+                android:lineSpacingExtra="3dp" />
+        </ScrollView>
+        <TextView
+            android:id="@+id/detailsClose"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:background="@drawable/pill_bg"
+            android:textColor="@drawable/pill_text"
+            android:textSize="14sp"
+            android:fontFamily="@string/font_medium"
+            android:text="Close"
+            android:focusable="true"
+            android:clickable="true"
+            android:defaultFocusHighlightEnabled="false" />
+    </LinearLayout>
+</FrameLayout>

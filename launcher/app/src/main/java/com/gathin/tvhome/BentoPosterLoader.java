@@ -24,10 +24,13 @@ import java.util.concurrent.Executors;
 public final class BentoPosterLoader {
     private static final int TARGET_W = 230;
     private static final int TARGET_H = 344;
+    private static final int BACKDROP_W = 960;
+    private static final int BACKDROP_H = 540;
     private static BentoPosterLoader instance;
     private final LruCache<String, Bitmap> memCache;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final File cacheDir;
+    private final File backdropDir;
     private final ExecutorService pool = Executors.newFixedThreadPool(3);
 
     public static synchronized BentoPosterLoader get(Context ctx) {
@@ -45,35 +48,62 @@ public final class BentoPosterLoader {
         };
         cacheDir = new File(ctx.getCacheDir(), "posters");
         if (!cacheDir.exists()) cacheDir.mkdirs();
+        backdropDir = new File(ctx.getCacheDir(), "backdrops");
+        if (!backdropDir.exists()) backdropDir.mkdirs();
     }
 
     public void loadPoster(String url, ImageView imageView) {
+        load(url, imageView, TARGET_W, TARGET_H, cacheDir, null);
+    }
+
+    /**
+     * Backdrop art (w780): decoded to ~960x540, so upscaling it to full screen reads soft,
+     * like a blur, without the cost of one. onReady fires on the main thread once the bitmap
+     * is actually on the view (immediately when memory-cached); it never fires on a failed load,
+     * so callers keep the previous backdrop instead of fading to black.
+     */
+    public void loadBackdrop(String url, ImageView imageView, Runnable onReady) {
+        load(url, imageView, BACKDROP_W, BACKDROP_H, backdropDir, onReady);
+    }
+
+    private void load(String url, ImageView imageView, int targetW, int targetH, File dir, Runnable onReady) {
         if (imageView == null) return;
         if (url == null || url.trim().isEmpty()) {
+            // Clear the tag too: a pending load for a previous binding must not
+            // land on this view after it was recycled to an empty slot.
+            imageView.setTag(null);
             imageView.setImageDrawable(null);
             return;
         }
         Bitmap cached = memCache.get(url);
         if (cached != null) {
+            // Tag FIRST: without this, a stale in-flight load for the view's
+            // previous binding passes the tag check below and overwrites the
+            // correct bitmap (seen live: The Gentlemen art on the Daayra card).
+            imageView.setTag(url);
             imageView.setImageBitmap(cached);
+            if (onReady != null) onReady.run();
             return;
         }
         imageView.setImageDrawable(null);
         imageView.setTag(url);
         pool.execute(() -> {
-            Bitmap bmp = loadFromDiskOrNetwork(url);
+            Bitmap bmp = loadFromDiskOrNetwork(url, targetW, targetH, dir);
             if (bmp != null) {
                 memCache.put(url, bmp);
                 mainHandler.post(() -> {
-                    if (url.equals(imageView.getTag())) imageView.setImageBitmap(bmp);
+                    if (url.equals(imageView.getTag())) {
+                        imageView.setImageBitmap(bmp);
+                        if (onReady != null) onReady.run();
+                    }
                 });
             }
         });
     }
 
-    private Bitmap loadFromDiskOrNetwork(String urlStr) {
+    private Bitmap loadFromDiskOrNetwork(String urlStr, int targetW, int targetH, File dir) {
         try {
-            File diskFile = new File(cacheDir, Integer.toHexString(urlStr.hashCode()) + ".jpg");
+            File diskFile = new File(dir, Integer.toHexString(urlStr.hashCode()) + ".jpg");
             if (!diskFile.exists() || diskFile.length() == 0) {
                 URL url = new URL(urlStr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -97,7 +127,7 @@ public final class BentoPosterLoader {
                 opts.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(diskFile.getAbsolutePath(), opts);
                 int inSampleSize = 1;
-                while (opts.outWidth / inSampleSize > TARGET_W || opts.outHeight / inSampleSize > TARGET_H) {
+                while (opts.outWidth / inSampleSize > targetW || opts.outHeight / inSampleSize > targetH) {
                     inSampleSize *= 2;
                 }
                 opts.inJustDecodeBounds = false;

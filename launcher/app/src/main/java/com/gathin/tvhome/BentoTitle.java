@@ -3,6 +3,9 @@ package com.gathin.tvhome;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * One title in the Reviewer Collective feed or My List, in the full design-doc schema.
  * Every field the pipeline publishes is kept: nothing is stripped to fit an arbitrary size gate.
@@ -17,6 +20,8 @@ public final class BentoTitle {
     public final String imdbId;         // may be null when unknown
     public final String posterPath;     // TMDB poster path, e.g. "/abc.jpg"
     public final String posterUrl;      // full w342 URL, may be null
+    public final String backdropPath;   // TMDB backdrop path, may be null (feed may not carry it yet)
+    public final String backdropUrl;    // full w780 URL, may be null
     public final int year;
     public final String language;
     public final String firstSeen;
@@ -27,15 +32,17 @@ public final class BentoTitle {
     public final String urlSource;      // watchmode_web_url | justwatch_standardWebURL
     public final String requiresVpn;    // null | "IN" | ...
     public final String vpnLabel;       // e.g. "ExpressVPN to India", may be null
+    public final List<String> genres;   // TMDB genre names, may be empty; never invented
     public final boolean isInMyList;
     public final boolean isSkippedButton;
     public final int skippedCount;
 
     BentoTitle(String title, String mediaType, int tmdbId, String tmdbType, String imdbId,
-                       String posterPath, String posterUrl, int year, String language,
+                       String posterPath, String posterUrl, String backdropPath, String backdropUrl,
+                       int year, String language,
                        String firstSeen, String lastSeen, String postUrl,
                        String providerUrl, String provider, String urlSource,
-                       String requiresVpn, String vpnLabel,
+                       String requiresVpn, String vpnLabel, List<String> genres,
                        boolean isInMyList, boolean isSkippedButton, int skippedCount) {
         this.title = title;
         this.mediaType = mediaType != null ? mediaType : "movie";
@@ -44,6 +51,8 @@ public final class BentoTitle {
         this.imdbId = imdbId;
         this.posterPath = posterPath;
         this.posterUrl = posterUrl;
+        this.backdropPath = backdropPath;
+        this.backdropUrl = backdropUrl;
         this.year = year;
         this.language = language;
         this.firstSeen = firstSeen;
@@ -54,6 +63,7 @@ public final class BentoTitle {
         this.urlSource = urlSource;
         this.requiresVpn = requiresVpn;
         this.vpnLabel = vpnLabel;
+        this.genres = genres != null ? genres : new ArrayList<>();
         this.isInMyList = isInMyList;
         this.isSkippedButton = isSkippedButton;
         this.skippedCount = skippedCount;
@@ -67,18 +77,42 @@ public final class BentoTitle {
     /** Same title, with the My List flag changed. */
     public BentoTitle withInMyList(boolean inMyList) {
         return new BentoTitle(title, mediaType, tmdbId, tmdbType, imdbId, posterPath, posterUrl,
+                backdropPath, backdropUrl,
                 year, language, firstSeen, lastSeen, postUrl, providerUrl, provider, urlSource,
-                requiresVpn, vpnLabel, inMyList, isSkippedButton, skippedCount);
+                requiresVpn, vpnLabel, genres, inMyList, isSkippedButton, skippedCount);
     }
 
     public boolean isPlayable() {
         return providerUrl != null && !providerUrl.trim().isEmpty();
     }
 
+    /** True when the feed first saw this title today (Singapore date): the "New" treatment. */
+    public boolean isNewToday() {
+        if (firstSeen == null || firstSeen.length() < 10) return false;
+        return firstSeen.substring(0, 10).equals(todaySgt());
+    }
+
+    private static String todaySgt() {
+        java.text.SimpleDateFormat f = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US);
+        f.setTimeZone(java.util.TimeZone.getTimeZone("Asia/Singapore"));
+        return f.format(new java.util.Date());
+    }
+
     public static BentoTitle createSkippedButton(int count) {
-        return new BentoTitle("Skipped (" + count + ")", "action", -999, "action", null,
-                null, null, 0, null, null, null, null,
-                null, null, null, null, null, false, true, count);
+        return new BentoTitle("Removed (" + count + ")", "action", -999, "action", null,
+                null, null, null, null, 0, null, null, null, null,
+                null, null, null, null, null, null, false, true, count);
+    }
+
+    /** At most two genres for the card label ("Drama · Comedy"); "" when none are known. */
+    public String genreText() {
+        if (genres == null || genres.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Math.min(2, genres.size()); i++) {
+            if (sb.length() > 0) sb.append(" · ");
+            sb.append(genres.get(i));
+        }
+        return sb.toString();
     }
 
     /** Parse one title object from recommendations.json / mylist.json (full schema). */
@@ -94,11 +128,21 @@ public final class BentoTitle {
         if (posterUrl == null && posterPath != null) {
             posterUrl = "https://image.tmdb.org/t/p/w342" + posterPath;
         }
+        String backdropPath = optNullable(item, "backdrop_path");
+        String backdropUrl = backdropPath != null ? "https://image.tmdb.org/t/p/w780" + backdropPath : null;
         int year = item.optInt("year", 0);
         String language = item.optString("language", "");
         String firstSeen = optNullable(item, "first_seen");
         String lastSeen = optNullable(item, "last_seen");
         String postUrl = optNullable(item, "post_url");
+        List<String> genres = new ArrayList<>();
+        JSONArray ga = item.optJSONArray("genres");
+        if (ga != null) {
+            for (int i = 0; i < ga.length(); i++) {
+                String g = ga.optString(i, null);
+                if (g != null && !g.trim().isEmpty()) genres.add(g.trim());
+            }
+        }
 
         // Availability: prefer SG, then IN (with its VPN label), then any entry.
         String providerUrl = null, provider = null, urlSource = null, requiresVpn = null, vpnLabel = null;
@@ -116,8 +160,9 @@ public final class BentoTitle {
             }
         }
         return new BentoTitle(title, mediaType, tmdbId, tmdbType, imdbId, posterPath, posterUrl,
+                backdropPath, backdropUrl,
                 year, language, firstSeen, lastSeen, postUrl,
-                providerUrl, provider, urlSource, requiresVpn, vpnLabel,
+                providerUrl, provider, urlSource, requiresVpn, vpnLabel, genres,
                 inMyList, false, 0);
     }
 
@@ -146,6 +191,12 @@ public final class BentoTitle {
             if (imdbId != null) o.put("imdb_id", imdbId);
             if (posterPath != null) o.put("poster_path", posterPath);
             if (posterUrl != null) o.put("poster_url", posterUrl);
+            if (backdropPath != null) o.put("backdrop_path", backdropPath);
+            if (genres != null && !genres.isEmpty()) {
+                JSONArray g = new JSONArray();
+                for (String s : genres) g.put(s);
+                o.put("genres", g);
+            }
             o.put("year", year);
             if (language != null && !language.isEmpty()) o.put("language", language);
             if (firstSeen != null) o.put("first_seen", firstSeen);

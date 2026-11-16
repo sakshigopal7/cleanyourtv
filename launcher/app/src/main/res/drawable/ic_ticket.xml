@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ticket glyph for a cinema title row: notched ticket outline (amber stroke) with a
+     perforation line. Simple vector shape, no image asset. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFC107"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M4,7 H20 V10 L18,12 L20,14 V17 H4 V14 L6,12 L4,10 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFC107"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:pathData="M14,8.5 V10 M14,11 V13 M14,14 V15.5" />
+</vector>

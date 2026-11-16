@@ -1125,6 +1125,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (openLiveTvAfterBoot()) return;
         updateGreeting();
         updatePanel();
+        refreshBentoFeed();
         // Back from an app opened from its tile, focus is still on that tile, so the cinematic "Last opened" line kept
         // the time from before this launch ("2 days ago" right after opening it). Refresh it.
         if (cinematic && heroMeta != null && lastFocused >= 0 && lastFocused < adapter.appCount()) updateHeroMeta(lastFocused);
@@ -2259,25 +2260,75 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     // ---------- Bento Dashboard (Reviewer Collective + My List) ----------
 
     private View bentoContainer;
-    private View bentoGreetingCard;
     private TextView bentoGreeting;
     private TextClock bentoClock;
     private TextClock bentoDate;
     private TextView bentoWeather;
+    private TextView bentoRainLine;
+    private View bentoCinemaSection;
+    private View bentoCinemaCard1;
+    private View bentoCinemaCard2;
+    private ImageView bentoCinemaPoster1;
+    private ImageView bentoCinemaPoster2;
+    private TextView bentoCinemaTitle1;
+    private TextView bentoCinemaTitle2;
+    private TextView bentoCinemaGenre1;
+    private TextView bentoCinemaGenre2;
+    private TextView forYouTitle;
     private RecyclerView forYouRecycler;
     private RecyclerView myListRecycler;
     private BentoPosterAdapter forYouAdapter;
     private BentoPosterAdapter myListAdapter;
+    private ImageView bentoBackdropA;
+    private ImageView bentoBackdropB;
+    private View bentoBackdropDim;
+    private BentoRainView bentoRain;
+    private java.util.List<View> cinemaTitleViews = new java.util.ArrayList<>();
+    private java.util.List<CinemaTitle> cinemaTitles = new java.util.ArrayList<>();
+    private int lastCinemaFocus = 0; // which cinema title LEFT from the For you row lands on
+    private boolean backdropFrontA = true; // which backdrop ImageView is currently visible
+    private String currentBackdropUrl;
 
     private void initBentoDashboard(Config cfg) {
         bentoContainer = findViewById(R.id.bentoContainer);
-        bentoGreetingCard = findViewById(R.id.bentoGreetingCard);
         bentoGreeting = findViewById(R.id.bentoGreeting);
         bentoClock = findViewById(R.id.bentoClock);
         bentoDate = findViewById(R.id.bentoDate);
         bentoWeather = findViewById(R.id.bentoWeather);
+        bentoRainLine = findViewById(R.id.bentoRainLine);
+        bentoCinemaSection = findViewById(R.id.bentoCinemaSection);
+        bentoCinemaCard1 = findViewById(R.id.bentoCinemaCard1);
+        bentoCinemaCard2 = findViewById(R.id.bentoCinemaCard2);
+        bentoCinemaPoster1 = findViewById(R.id.bentoCinemaPoster1);
+        bentoCinemaPoster2 = findViewById(R.id.bentoCinemaPoster2);
+        bentoCinemaTitle1 = findViewById(R.id.bentoCinemaTitle1);
+        bentoCinemaTitle2 = findViewById(R.id.bentoCinemaTitle2);
+        bentoCinemaGenre1 = findViewById(R.id.bentoCinemaGenre1);
+        bentoCinemaGenre2 = findViewById(R.id.bentoCinemaGenre2);
+        // The greeting card itself must never take focus: in the Slice 6 build the
+        // D-pad got trapped on it (DOWN from the cinema list went nowhere). Enforce
+        // it at runtime, whatever the XML says; children may still take focus.
+        View bentoCard = findViewById(R.id.bentoGreetingCard);
+        if (bentoCard != null) {
+            bentoCard.setFocusable(false);
+            bentoCard.setClickable(false);
+            bentoCard.setFocusableInTouchMode(false);
+            bentoCard.setDefaultFocusHighlightEnabled(false);
+            if (bentoCard instanceof ViewGroup) {
+                ((ViewGroup) bentoCard).setDescendantFocusability(
+                        ViewGroup.FOCUS_AFTER_DESCENDANTS);
+            }
+        }
+        forYouTitle = findViewById(R.id.forYouTitle);
         forYouRecycler = findViewById(R.id.forYouRecycler);
         myListRecycler = findViewById(R.id.myListRecycler);
+        bentoBackdropA = findViewById(R.id.bentoBackdropA);
+        bentoBackdropB = findViewById(R.id.bentoBackdropB);
+        bentoBackdropDim = findViewById(R.id.bentoBackdropDim);
+        bentoRain = findViewById(R.id.bentoRain);
+        cinemaTitleViews.clear();
+        if (bentoCinemaCard1 != null) cinemaTitleViews.add(bentoCinemaCard1);
+        if (bentoCinemaCard2 != null) cinemaTitleViews.add(bentoCinemaCard2);
 
         if (bentoGreeting != null) {
             int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -2285,14 +2336,18 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (hour >= 5 && hour < 12) timeOfDay = "Good morning";
             else if (hour >= 12 && hour < 17) timeOfDay = "Good afternoon";
             else timeOfDay = "Good evening";
-            String name = (greetingName != null && !greetingName.isEmpty()) ? greetingName : "Sakshi and Ayu";
+            String name = (greetingName != null && !greetingName.isEmpty()) ? greetingName : "Ayushi and Sakshi";
             bentoGreeting.setText(timeOfDay + ", " + name);
         }
         if (bentoWeather != null) {
             String last = BentoWeather.lastGood(this);
             if (last != null) bentoWeather.setText(last);
+            updateRainLine();
+            updateRainOverlay();
             BentoWeather.refresh(this, text -> {
                 if (bentoWeather != null) bentoWeather.setText(text);
+                updateRainLine();
+                updateRainOverlay();
             });
         }
 
@@ -2308,54 +2363,34 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 if (title.isSkippedButton) showRestoreSkippedDialog();
                 else showForYouMenu(position, title);
             });
+            forYouAdapter.setOnPosterFocusListener((position, title, hasFocus) -> {
+                if (hasFocus) onPosterFocused(title);
+            });
         }
 
         if (myListRecycler != null) {
             myListRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
             myListAdapter = new BentoPosterAdapter();
+            myListAdapter.setShowMyListBadge(false);
             myListRecycler.setAdapter(myListAdapter);
             myListAdapter.setOnPosterClickListener((position, title, v) -> BentoStore.playTitle(MainActivity.this, title));
             myListAdapter.setOnPosterLongClickListener((position, title, v) -> showMyListMenu(position, title));
+            myListAdapter.setOnPosterFocusListener((position, title, hasFocus) -> {
+                if (hasFocus) onPosterFocused(title);
+            });
         }
 
         loadBentoData();
-
-        if (bentoGreetingCard != null) {
-            bentoGreetingCard.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) {
-                    hideGlass();
-                    v.animate().scaleX(1.02f).scaleY(1.02f).setDuration(140).start();
-                } else {
-                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(140).start();
-                }
-            });
-            bentoGreetingCard.setOnKeyListener((v, keyCode, event) -> {
-                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
-                if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                    if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null) {
-                        View target = forYouRecycler.getLayoutManager().findViewByPosition(0);
-                        if (target != null) target.requestFocus();
-                        else forYouRecycler.requestFocus();
-                    }
-                    return true;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                    focusTile(0);
-                    return true;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                    return true;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                    return true;
-                }
-                return false;
-            });
-        }
+        refreshBentoFeed();
 
         if (forYouAdapter != null) {
             forYouAdapter.setOnPosterKeyListener((position, title, keyCode, event, v) -> {
                 if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
                 if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                    if (position == 0 && bentoGreetingCard != null) {
-                        bentoGreetingCard.requestFocus();
+                    if (position == 0) {
+                        // The greeting card is not focusable, but its cinema titles are:
+                        // LEFT from the first For you card moves into the cinema list.
+                        focusCinemaTitle(lastCinemaFocus);
                         return true;
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
@@ -2381,9 +2416,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             myListAdapter.setOnPosterKeyListener((position, title, keyCode, event, v) -> {
                 if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
                 if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                    if (position == 0 && bentoGreetingCard != null) {
-                        bentoGreetingCard.requestFocus();
-                        return true;
+                    if (position == 0) {
+                        return true; // greeting card is not focusable: nothing left of the row
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                     if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null && forYouAdapter != null && forYouAdapter.getItemCount() > 0) {
@@ -2391,8 +2425,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                         View target = forYouRecycler.getLayoutManager().findViewByPosition(targetPos);
                         if (target != null) target.requestFocus();
                         else forYouRecycler.requestFocus();
-                    } else if (bentoGreetingCard != null) {
-                        bentoGreetingCard.requestFocus();
                     }
                     return true;
                 } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
@@ -2409,25 +2441,322 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private void loadBentoData() {
         if (forYouAdapter != null) forYouAdapter.setItems(BentoStore.loadRecommendations(this));
         if (myListAdapter != null) myListAdapter.setItems(BentoStore.loadMyList(this));
+        updateForYouHeader();
+        updateCinemaSection();
+    }
+
+    /** Add to My List with a fly-to-row animation: the card flies toward the My List row
+     * (translate + scale-down + fade, ~350 ms, transforms/alpha only), then both rows reload
+     * with the title in its new place. Falls back to a shrink-and-fade in place when the
+     * card or the My List row is not on screen; honours reduced motion by committing at once. */
+    private void animateAddToMyList(int position, BentoTitle title) {
+        Runnable commit = () -> {
+            BentoStore.addToMyList(MainActivity.this, title);
+            loadBentoData();
+            Toast.makeText(MainActivity.this, "Added to My List", Toast.LENGTH_SHORT).show();
+            pulseMyListCard();
+        };
+        View card = null;
+        if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null) {
+            card = forYouRecycler.getLayoutManager().findViewByPosition(position);
+        }
+        if (reducedMotion || card == null || myListRecycler == null) {
+            commit.run();
+            return;
+        }
+        int[] from = new int[2];
+        int[] to = new int[2];
+        card.getLocationOnScreen(from);
+        myListRecycler.getLocationOnScreen(to);
+        float dx = (to[0] + card.getWidth() / 2f) - (from[0] + card.getWidth() / 2f);
+        float dy = (to[1] + card.getHeight() / 2f) - (from[1] + card.getHeight() / 2f);
+        final View flyCard = card;
+        flyCard.setClickable(false);
+        flyCard.animate()
+                .translationXBy(dx).translationYBy(dy)
+                .scaleX(0.55f).scaleY(0.55f).alpha(0.25f)
+                .setDuration(350)
+                .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                .withEndAction(() -> {
+                    flyCard.setTranslationX(0f);
+                    flyCard.setTranslationY(0f);
+                    flyCard.setScaleX(1f);
+                    flyCard.setScaleY(1f);
+                    flyCard.setAlpha(1f);
+                    flyCard.setClickable(true);
+                    commit.run();
+                })
+                .start();
+    }
+
+    /** Brief highlight pulse on the newly added My List card (position 0). */
+    private void pulseMyListCard() {
+        View card = null;
+        if (myListRecycler != null && myListRecycler.getLayoutManager() != null) {
+            card = myListRecycler.getLayoutManager().findViewByPosition(0);
+        }
+        if (card == null || reducedMotion) return;
+        card.setScaleX(1.12f);
+        card.setScaleY(1.12f);
+        card.animate().scaleX(1f).scaleY(1f).setDuration(220).start();
+    }
+
+    private void refreshBentoFeed() {
+        if (forYouAdapter == null) return;
+        BentoFeedFetcher.refresh(this, () -> {
+            loadBentoData();
+            updateForYouHeader();
+        });
+    }
+
+    /** "For you · Reviewer Collective · Updated today / yesterday / N days ago" from the feed's generated_at. */
+    private void updateForYouHeader() {
+        if (forYouTitle == null) return;
+        String generatedAt = BentoStore.feedGeneratedAt(this);
+        if (generatedAt == null || generatedAt.length() < 10) return;
+        try {
+            java.time.LocalDate generated = java.time.LocalDate.parse(generatedAt.substring(0, 10));
+            long days = java.time.temporal.ChronoUnit.DAYS.between(generated, java.time.LocalDate.now());
+            String when = days <= 0 ? "Updated today" : days == 1 ? "Updated yesterday" : "Updated " + days + " days ago";
+            forYouTitle.setText("For you · Reviewer Collective · " + when);
+        } catch (Exception ignored) {
+        }
+    }
+
+
+    /** Slice 6: focus-following cinematic backdrop. A focused poster crossfades the home
+     * background to that title's backdrop art (w780, dimmed, soft from upscaling); a title with
+     * no backdrop_path (the live feed does not carry it yet) fades back to the static wallpaper.
+     * A failed load keeps the previous backdrop: the callback never fires, so Home never fades
+     * to black. Stale loads (focus moved on before the bitmap arrived) are ignored. */
+    private void onPosterFocused(BentoTitle title) {
+        if (bentoBackdropA == null || bentoBackdropB == null || bentoBackdropDim == null) return;
+        String url = (title == null || title.isSkippedButton) ? null : title.backdropUrl;
+        if (url == null) {
+            fadeBackdropOut();
+            return;
+        }
+        if (url.equals(currentBackdropUrl)) return;
+        currentBackdropUrl = url;
+        final String want = url;
+        final ImageView hidden = backdropFrontA ? bentoBackdropB : bentoBackdropA;
+        final ImageView shown = backdropFrontA ? bentoBackdropA : bentoBackdropB;
+        BentoPosterLoader.get(this).loadBackdrop(url, hidden, () -> {
+            if (!want.equals(currentBackdropUrl)) return; // focus already moved on
+            if (reducedMotion) {
+                shown.setAlpha(0f);
+                hidden.setAlpha(1f);
+                bentoBackdropDim.setAlpha(1f);
+            } else {
+                hidden.animate().alpha(1f).setDuration(400).start();
+                shown.animate().alpha(0f).setDuration(400).start();
+                bentoBackdropDim.animate().alpha(1f).setDuration(400).start();
+            }
+            backdropFrontA = !backdropFrontA;
+        });
+    }
+
+    private void fadeBackdropOut() {
+        if (currentBackdropUrl == null) return;
+        currentBackdropUrl = null;
+        if (bentoBackdropA == null || bentoBackdropB == null || bentoBackdropDim == null) return;
+        if (reducedMotion) {
+            bentoBackdropA.setAlpha(0f);
+            bentoBackdropB.setAlpha(0f);
+            bentoBackdropDim.setAlpha(0f);
+        } else {
+            bentoBackdropA.animate().alpha(0f).setDuration(400).start();
+            bentoBackdropB.animate().alpha(0f).setDuration(400).start();
+            bentoBackdropDim.animate().alpha(0f).setDuration(400).start();
+        }
+    }
+
+    /** Rain timing line under the weather, from the Open-Meteo hourly precipitation
+     * probabilities the TV already fetches. Hidden until a reading is cached. */
+    private void updateRainLine() {
+        if (bentoRainLine == null) return;
+        String line = BentoWeather.lastGoodRainLine(this);
+        if (line != null && !line.isEmpty()) {
+            bentoRainLine.setText(line);
+            bentoRainLine.setVisibility(View.VISIBLE);
+        } else {
+            bentoRainLine.setVisibility(View.GONE);
+        }
+    }
+
+    /** In cinemas in Singapore: the Reviewer Collective pipeline's cinema-only titles,
+     * verified screening here this week. At most two rows; the whole section hides when
+     * nothing is verified (stale or empty list), so the card never shows a stale title.
+     * The card itself is not focusable, but each cinema title is: LEFT from the For you
+     * row moves in, RIGHT returns to the row, UP/DOWN move between titles, OK opens the
+     * details dialog. Focus gets the same 3dp amber box as posters (bento_cinema_row_bg);
+     * no system highlight anywhere. */
+    private void updateCinemaSection() {
+        if (bentoCinemaSection == null) return;
+        cinemaTitles = BentoStore.loadCinema(this);
+        if (cinemaTitles.isEmpty()) {
+            bentoCinemaSection.setVisibility(View.GONE);
+            return;
+        }
+        bentoCinemaSection.setVisibility(View.VISIBLE);
+        bindCinemaCard(bentoCinemaCard1, bentoCinemaPoster1, bentoCinemaTitle1, bentoCinemaGenre1, 0);
+        bindCinemaCard(bentoCinemaCard2, bentoCinemaPoster2, bentoCinemaTitle2, bentoCinemaGenre2, 1);
+    }
+
+    private void bindCinemaCard(View card, ImageView poster, TextView titleView, TextView genreView, int index) {
+        if (card == null) return;
+        if (index >= cinemaTitles.size()) {
+            card.setVisibility(View.GONE);
+            card.setOnClickListener(null);
+            card.setOnKeyListener(null);
+            card.setOnFocusChangeListener(null);
+            return;
+        }
+        final CinemaTitle ct = cinemaTitles.get(index);
+        card.setVisibility(View.VISIBLE);
+        if (titleView != null) titleView.setText(ct.title);
+        if (genreView != null) {
+            String g = ct.genreText();
+            if (g.isEmpty()) genreView.setVisibility(View.GONE);
+            else { genreView.setText(g); genreView.setVisibility(View.VISIBLE); }
+        }
+        if (poster != null) {
+            poster.setImageDrawable(null);
+            if (ct.posterUrl != null) BentoPosterLoader.get(this).loadPoster(ct.posterUrl, poster);
+        }
+        card.setOnClickListener(v -> showCinemaDetails(ct));
+        card.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lastCinemaFocus = index;
+                v.animate().scaleX(1.05f).scaleY(1.05f).setDuration(140).start();
+            } else {
+                v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(140).start();
+            }
+        });
+        card.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_ENTER:
+                case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                    showCinemaDetails(ct);
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    focusForYouFirst();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_UP:
+                    if (index > 0) focusCinemaTitle(index - 1);
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    // Last card: DOWN must reach the dock, never swallow the key.
+                    // (The Slice 6 rows returned true here and trapped the D-pad.)
+                    if (index < cinemaTitles.size() - 1) focusCinemaTitle(index + 1);
+                    else focusDockFirst();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    return true; // nothing further left of the cinema list
+                default:
+                    return false;
+            }
+        });
+    }
+
+    /** Focus the first dock tile (YouTube): the DOWN target from the last cinema card. */
+    private void focusDockFirst() {
+        if (grid != null && grid.getLayoutManager() != null) {
+            View tile = grid.getLayoutManager().findViewByPosition(0);
+            if (tile != null) { tile.requestFocus(); return; }
+            grid.scrollToPosition(0);
+            grid.post(() -> {
+                if (grid.getLayoutManager() == null) return;
+                View t = grid.getLayoutManager().findViewByPosition(0);
+                if (t != null) t.requestFocus();
+            });
+        }
+    }
+
+    /** Focus a cinema title by index (clamped); a no-op when the section is hidden. */
+    private void focusCinemaTitle(int index) {
+        if (bentoCinemaSection == null || bentoCinemaSection.getVisibility() != View.VISIBLE) return;
+        if (cinemaTitleViews.isEmpty()) return;
+        int i = Math.max(0, Math.min(index, cinemaTitleViews.size() - 1));
+        if (i >= cinemaTitles.size()) return;
+        lastCinemaFocus = i;
+        cinemaTitleViews.get(i).requestFocus();
+    }
+
+    /** Focus the first card of the For you row (the return target from the cinema list). */
+    private void focusForYouFirst() {
+        if (forYouRecycler != null && forYouRecycler.getLayoutManager() != null && forYouAdapter != null && forYouAdapter.getItemCount() > 0) {
+            View target = forYouRecycler.getLayoutManager().findViewByPosition(0);
+            if (target != null) target.requestFocus();
+            else forYouRecycler.requestFocus();
+        }
+    }
+
+    /** Cinema title details: synopsis, year, runtime, language, rating (when known),
+     * in the poster-Details style. The overview comes from TMDB via cinema.json;
+     * anything unknown is omitted, never invented. */
+    private void showCinemaDetails(CinemaTitle ct) {
+        if (ct == null) return;
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bento_details);
+        android.view.Window w = dialog.getWindow();
+        if (w != null) {
+            w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            w.setDimAmount(0.6f);
+        }
+        TextView title = dialog.findViewById(R.id.detailsTitle);
+        TextView meta = dialog.findViewById(R.id.detailsMeta);
+        TextView overview = dialog.findViewById(R.id.detailsOverview);
+        TextView close = dialog.findViewById(R.id.detailsClose);
+        if (title != null) title.setText(ct.title);
+        if (meta != null) {
+            String m = ct.metaLine();
+            meta.setText(m);
+            meta.setVisibility(m.isEmpty() ? View.GONE : View.VISIBLE);
+        }
+        if (overview != null) {
+            overview.setText(ct.overview.isEmpty() ? "No synopsis available." : ct.overview);
+        }
+        if (close != null) {
+            close.setOnClickListener(v -> dialog.dismiss());
+            close.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                // BACK must reach the dialog itself, or it can never be dismissed
+                // with the remote's Back key (it was swallowed here before).
+                if (keyCode == KeyEvent.KEYCODE_BACK) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER) {
+                    dialog.dismiss();
+                    return true;
+                }
+                return true; // single-button dialog: swallow all D-pad navigation
+            });
+        }
+        dialog.show();
+        if (close != null) close.requestFocus();
+    }
+
+    /** Slice 6: rain overlay on only while the live weather says it is actually raining. */
+    private void updateRainOverlay() {
+        if (bentoRain == null) return;
+        boolean raining = BentoWeather.isRaining(BentoWeather.lastGoodCode(this));
+        bentoRain.setRaining(raining);
     }
 
     private void showForYouMenu(int position, BentoTitle title) {
         String subtitle = title.provider != null ? title.provider : "";
         if (title.year > 0) subtitle = subtitle.isEmpty() ? String.valueOf(title.year) : subtitle + " · " + title.year;
         showBentoMenu(title.title, subtitle,
-                new String[]{"Add to My List", "Watch now", "Details", "Skip this title"},
+                new String[]{"Add to My List", "Details", "Remove"},
                 new Runnable[]{
-                        () -> {
-                            BentoStore.addToMyList(MainActivity.this, title);
-                            loadBentoData();
-                            Toast.makeText(MainActivity.this, "Added to My List", Toast.LENGTH_SHORT).show();
-                        },
-                        () -> BentoStore.playTitle(MainActivity.this, title),
+                        () -> animateAddToMyList(position, title),
                         () -> showBentoDetails(title),
                         () -> {
                             BentoStore.skipTitle(MainActivity.this, title);
                             loadBentoData();
-                            Toast.makeText(MainActivity.this, "Skipped", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Removed", Toast.LENGTH_SHORT).show();
                         }
                 });
     }
@@ -2449,13 +2778,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     }
 
     private void showRestoreSkippedDialog() {
-        showBentoMenu("Skipped titles", "Restore them to the For you row",
-                new String[]{"Restore skipped titles", "Keep skipping"},
+        showBentoMenu("Removed titles", "Restore them to the For you row",
+                new String[]{"Restore removed titles", "Keep removed"},
                 new Runnable[]{
                         () -> {
                             BentoStore.restoreSkipped(MainActivity.this);
                             loadBentoData();
-                            Toast.makeText(MainActivity.this, "Skipped titles restored", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Removed titles restored", Toast.LENGTH_SHORT).show();
                         },
                         () -> {}
                 });
@@ -2745,6 +3074,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (position < COLUMNS) return false;          // dock row: let focus move to the top bar
             target = position - COLUMNS;
         } else {
+            // Dock row: Down has nowhere to go. Consume it here so the grid never scrolls
+            // a row down (the "dock jump") and the focus handoff never flashes a poster.
+            if (position < COLUMNS) return true;
             int lastRowStart = ((count - 1) / COLUMNS) * COLUMNS;
             if (position >= lastRowStart) {
                 if (adapter.isLibraryAt(count)) focusLibrary();
