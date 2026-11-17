@@ -1,0 +1,38 @@
+{
+  "notes": "I Play Rocky (RC cinema-only) is NOT listed: no Singapore cinema listing found on 16 Nov 2026 (US wide release 20 Nov; India 13 Nov). Re-check on later runs. Overviews + details from TMDB (Wildwood 791523, Ramayana: Rise of a Legend 656908), fetched 16 Nov 2026.",
+  "source": "reviewer-collective",
+  "titles": [
+    {
+      "genres": [
+        "Animation",
+        "Fantasy",
+        "Adventure"
+      ],
+      "language": "English",
+      "overview": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
+      "poster_path": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
+      "rating": 8.5,
+      "runtime_minutes": 132,
+      "title": "Wildwood",
+      "tmdb_id": 791523,
+      "year": 2026
+    },
+    {
+      "genres": [
+        "Fantasy",
+        "Action",
+        "Adventure"
+      ],
+      "language": "Hindi",
+      "overview": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead.",
+      "poster_path": "/vBQ7wks68OhJKlb3RnXSl2yXBXK.jpg",
+      "rating": 7.5,
+      "runtime_minutes": 195,
+      "title": "Ramayana Part 1",
+      "tmdb_id": 656908,
+      "year": 2026
+    }
+  ],
+  "verified_on": "2026-11-16",
+  "verified_via": "now-sg.com + cinemaonline.sg Singapore listings (Shaw, Golden Village), 16 Nov 2026"
+}
