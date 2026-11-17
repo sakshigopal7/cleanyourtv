@@ -51,9 +51,13 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
         showMyListBadge = show;
     }
 
-    /** For you row only: a "Search" tile at position 0 that opens the TMDB search dialog. */
+    /** A "Search" tile at position 0 that opens the TMDB search dialog (My List row). */
     public void setShowSearchTile(boolean show) {
         showSearchTile = show;
+    }
+
+    public boolean isShowSearchTile() {
+        return showSearchTile;
     }
 
     public void setItems(List<BentoTitle> newItems) {

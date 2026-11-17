@@ -148,16 +148,17 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Tile width that fits the columns across and, with rows_below_dock > 0, the dock (with its title above it,
-     * if shown) plus that many rows down the grid's height; the smaller wins. With rows_below_dock = 0, or before
-     * the grid has a height, only the width counts, as before. Without this, 2 or 3 rows below the dock did not
+     * if shown) plus that many rows down the grid's height; the smaller wins. With rows_below_dock = 0 the dock
+     * row itself must fit the grid's height: the width-only tile (133dp here) made a 120dp item in an 84dp
+     * strip, so the dock cards were cut off at the bottom. Without this, 2 or 3 rows below the dock did not
      * fit: the dock was pushed to the top and its title drew over the clock. With dock_row false there is no band
      * or title to make room for: the first row plus rows_below_dock rows fit under a small top margin.
      */
     static int tileWidthPx(int innerWidthPx, int gridHeightPx, int columns, int rowsBelowDock, boolean dockTitle,
                            boolean dockRow, float density) {
         int w = tileWidthPx(innerWidthPx, columns, density);
-        if (gridHeightPx <= 0 || rowsBelowDock <= 0) return w;
-        float reserved = (dockRow ? DOCK_EXTRA_DP + BOTTOM_ROOM_DP + (dockTitle ? TITLE_ROOM_DP : 0)
+        if (gridHeightPx <= 0) return w;
+        float reserved = (dockRow ? DOCK_EXTRA_DP + (rowsBelowDock > 0 ? BOTTOM_ROOM_DP : 0) + (dockTitle ? TITLE_ROOM_DP : 0)
                 : TOP_ROOM_DP + COMPACT_BOTTOM_ROOM_DP) * density;
         float perItem = (gridHeightPx - reserved) / (rowsBelowDock + 1);
         float tileH = perItem - (dockRow ? ITEM_EXTRA_DP : COMPACT_ITEM_EXTRA_DP) * density;
@@ -478,7 +479,13 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // The dock has no labels, unless always_show_names asks for them (DockDecoration then makes room in the band).
         // In a single row every tile is the dock's kind: the big title above names it.
         boolean dockKind = DockSlots.inDockRow(dockRow, singleRow, position, dockSize);
-        h.name.setVisibility(dockKind && restNameAlpha == 0f ? View.INVISIBLE : View.VISIBLE);
+        // Dock tiles never show their name (the hero title sits behind the bento
+        // container), and the name view still occupied layout space when INVISIBLE:
+        // its 7dp gap + 22dp label kept the dock item ~29dp taller than the tile,
+        // so the cards were cut off at the bottom of the 84dp dock strip. GONE
+        // collapses it; the focus listener only animates alpha, never visibility,
+        // so a focused dock tile stays nameless, as before.
+        h.name.setVisibility(dockKind && restNameAlpha == 0f ? View.GONE : View.VISIBLE);
         h.inDock = dockKind;
         boolean focused = h.card.isFocused();   // a rebind after reload() can hit the focused tile
         h.name.setAlpha(focused ? 1f : restNameAlpha);

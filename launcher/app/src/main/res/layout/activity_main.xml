@@ -424,7 +424,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:clipChildren="true"
+            android:clipChildren="false"
             android:clipToPadding="false"
             android:layout_marginBottom="10dp">
             <FrameLayout
@@ -436,7 +436,7 @@
                 android:clickable="false"
                 android:defaultFocusHighlightEnabled="false"
                 android:background="@drawable/bento_card_bg"
-                android:padding="22dp">
+                android:padding="14dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -456,11 +456,11 @@
                         android:id="@+id/bentoClock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="6dp"
                         android:format12Hour="h:mm a"
                         android:format24Hour="HH:mm"
                         android:textColor="#FFFFFFFF"
-                        android:textSize="46sp"
+                        android:textSize="40sp"
                         android:fontFamily="@string/font_light"
                         android:letterSpacing="-0.02"
                         android:fontFeatureSettings="tnum"
@@ -469,7 +469,7 @@
                         android:id="@+id/bentoDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         android:format12Hour="EEEE, d MMMM"
                         android:format24Hour="EEEE, d MMMM"
                         android:textColor="#99FFFFFF"
@@ -481,7 +481,7 @@
                         android:id="@+id/bentoCinemaSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="6dp"
                         android:orientation="vertical"
                         android:visibility="gone">
                         <LinearLayout
@@ -514,7 +514,7 @@
                             <FrameLayout
                                 android:id="@+id/bentoCinemaCard1"
                                 android:layout_width="0dp"
-                                android:layout_height="144dp"
+                                android:layout_height="184dp"
                                 android:layout_weight="1"
                                 android:focusable="true"
                                 android:clickable="true"
@@ -574,7 +574,7 @@
                             <FrameLayout
                                 android:id="@+id/bentoCinemaCard2"
                                 android:layout_width="0dp"
-                                android:layout_height="144dp"
+                                android:layout_height="184dp"
                                 android:layout_weight="1"
                                 android:layout_marginStart="10dp"
                                 android:focusable="true"
@@ -640,7 +640,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="6dp"
                         android:background="#20FFFFFF" />
                     <TextView
                         android:id="@+id/bentoWeather"
@@ -671,12 +671,13 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:clipChildren="true"
+                android:clipChildren="false"
                 android:clipToPadding="false">
                 <TextView
                     android:id="@+id/forYouTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="For you · Reviewer Collective · Updated today"
                     android:textColor="#B3FFFFFF"
                     android:textSize="12sp"
@@ -690,6 +691,8 @@
                     android:layout_height="184dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:clipChildren="true"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
@@ -699,6 +702,7 @@
                     android:id="@+id/myListTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="My List"
                     android:textColor="#B3FFFFFF"
                     android:textSize="12sp"
@@ -713,6 +717,8 @@
                     android:layout_height="184dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:clipChildren="true"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
@@ -733,7 +739,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="10dp"
-                android:paddingBottom="40dp"
+                android:paddingBottom="12dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:clipToPadding="false"

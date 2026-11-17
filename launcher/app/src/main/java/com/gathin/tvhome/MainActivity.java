@@ -1126,6 +1126,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         updateGreeting();
         updatePanel();
         refreshBentoFeed();
+        // Back from an app or a nap: the weather may be a stale cache, so re-check
+        // (BentoWeather's 15-minute cache makes this a no-op when it is still fresh).
+        if (bentoWeather != null) {
+            BentoWeather.refresh(this, text -> {
+                if (bentoWeather != null) bentoWeather.setText(text);
+                updateRainLine();
+                updateRainOverlay();
+            });
+        }
         // Back from an app opened from its tile, focus is still on that tile, so the cinematic "Last opened" line kept
         // the time from before this launch ("2 days ago" right after opening it). Refresh it.
         if (cinematic && heroMeta != null && lastFocused >= 0 && lastFocused < adapter.appCount()) updateHeroMeta(lastFocused);
@@ -2349,12 +2358,26 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 updateRainLine();
                 updateRainOverlay();
             });
+            // While Home is in front, keep the weather fresh: re-check every 15 minutes
+            // (BentoWeather's own cache makes this a no-op until the window passes).
+            final Runnable weatherTick = new Runnable() {
+                @Override
+                public void run() {
+                    if (bentoWeather == null) return;
+                    BentoWeather.refresh(MainActivity.this, text -> {
+                        if (bentoWeather != null) bentoWeather.setText(text);
+                        updateRainLine();
+                        updateRainOverlay();
+                    });
+                    bentoWeather.postDelayed(this, 15L * 60L * 1000L);
+                }
+            };
+            bentoWeather.postDelayed(weatherTick, 15L * 60L * 1000L);
         }
 
         if (forYouRecycler != null) {
             forYouRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
             forYouAdapter = new BentoPosterAdapter();
-            forYouAdapter.setShowSearchTile(true);
             forYouRecycler.setAdapter(forYouAdapter);
             forYouAdapter.setOnPosterClickListener((position, title, v) -> {
                 if (title.isSearchTile) showSearchDialog();
@@ -2375,9 +2398,18 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             myListRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
             myListAdapter = new BentoPosterAdapter();
             myListAdapter.setShowMyListBadge(false);
+            // Search is for My List (titles not on the Reviewer Collective rack), so the
+            // Search tile lives at the head of this row, not in For you.
+            myListAdapter.setShowSearchTile(true);
             myListRecycler.setAdapter(myListAdapter);
-            myListAdapter.setOnPosterClickListener((position, title, v) -> BentoStore.playTitle(MainActivity.this, title));
-            myListAdapter.setOnPosterLongClickListener((position, title, v) -> showMyListMenu(position, title));
+            myListAdapter.setOnPosterClickListener((position, title, v) -> {
+                if (title.isSearchTile) showSearchDialog();
+                else BentoStore.playTitle(MainActivity.this, title);
+            });
+            myListAdapter.setOnPosterLongClickListener((position, title, v) -> {
+                if (title.isSearchTile) return;
+                showMyListMenu(position, title);
+            });
             myListAdapter.setOnPosterFocusListener((position, title, hasFocus) -> {
                 if (hasFocus) onPosterFocused(title);
             });
@@ -2492,11 +2524,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 .start();
     }
 
-    /** Brief highlight pulse on the newly added My List card (position 0). */
+    /** Brief highlight pulse on the newly added My List card (position 1 when the
+     * Search tile is shown at the head of the row, else position 0). */
     private void pulseMyListCard() {
         View card = null;
         if (myListRecycler != null && myListRecycler.getLayoutManager() != null) {
-            card = myListRecycler.getLayoutManager().findViewByPosition(0);
+            int pos = (myListAdapter != null && myListAdapter.isShowSearchTile()) ? 1 : 0;
+            card = myListRecycler.getLayoutManager().findViewByPosition(pos);
         }
         if (card == null || reducedMotion) return;
         card.setScaleX(1.12f);
@@ -3234,15 +3268,21 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (position < COLUMNS) return false;          // dock row: let focus move to the top bar
             target = position - COLUMNS;
         } else {
-            // Dock row: Down has nowhere to go. Consume it here so the grid never scrolls
-            // a row down (the "dock jump") and the focus handoff never flashes a poster.
-            if (position < COLUMNS) return true;
-            int lastRowStart = ((count - 1) / COLUMNS) * COLUMNS;
-            if (position >= lastRowStart) {
-                if (adapter.isLibraryAt(count)) focusLibrary();
-                return true;
+            // Bento home: the dock is the first row of the grid and the rest of the
+            // apps sit below it, so Down from a dock tile moves into the row below.
+            // (The stock launcher swallows this key, which left those rows reachable
+            // only from the library.) Nothing below the last row: swallow.
+            if (position < COLUMNS) {
+                if (position + COLUMNS >= count) return true;
+                target = position + COLUMNS;
+            } else {
+                int lastRowStart = ((count - 1) / COLUMNS) * COLUMNS;
+                if (position >= lastRowStart) {
+                    if (adapter.isLibraryAt(count)) focusLibrary();
+                    return true;
+                }
+                target = Math.min(position + COLUMNS, count - 1);
             }
-            target = Math.min(position + COLUMNS, count - 1);
         }
         focusTile(target);
         // The default focus search clicks for Left/Right; Up/Down are handled here, so click for them too.
