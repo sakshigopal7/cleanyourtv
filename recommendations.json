@@ -42,7 +42,8 @@
       "title": "17 Again",
       "tmdb_id": 16996,
       "tmdb_type": "movie",
-      "year": 2009
+      "year": 2009,
+      "overview": "On the brink of a midlife crisis, 30-something Mike O'Donnell wishes he could have a \"do-over.\" And that's exactly what he gets when he wakes up one morning to find he's 17 years old again. With his adult mind stuck inside the body of a teenager, Mike actually has the chance to reverse some decisions he wishes he'd never made. But maybe they weren't so bad after all."
     },
     {
       "availability": [
@@ -82,7 +83,8 @@
       "title": "Udta Punjab",
       "tmdb_id": 398535,
       "tmdb_type": "movie",
-      "year": 2016
+      "year": 2016,
+      "overview": "Drug abuse and the darker side of Punjab rear their heads in the intense, interwoven tales of a policeman, a doctor, a migrant worker, and a rockstar."
     },
     {
       "availability": [
@@ -122,7 +124,8 @@
       "title": "The Diplomat",
       "tmdb_id": 203857,
       "tmdb_type": "tv",
-      "year": 2023
+      "year": 2023,
+      "overview": "Amid an international crisis, a US diplomat contends with her high-profile job as ambassador to the UK and her strained marriage to a political star."
     },
     {
       "availability": [
@@ -154,7 +157,8 @@
       "title": "Baththa",
       "tmdb_id": 1515692,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "In 1986 Madras, a timid eight-year-old boy accidentally traps a feared gangster inside a deserted school toilet. As the gangster is forced to confront hunger, loneliness and his own vulnerability, an unlikely bond begins to grow between the two."
     },
     {
       "availability": [
@@ -185,7 +189,8 @@
       "title": "Being Heumann",
       "tmdb_id": 1050981,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "Scrappy, defiant, and done being treated like a burden, Judy Heumann turns her outrage into a revolution. In 1977, she and more than 100 disability rights protestors send a very loud message: The system is broken—not us."
     },
     {
       "availability": [
@@ -217,7 +222,8 @@
       "title": "The Gentlemen",
       "tmdb_id": 236235,
       "tmdb_type": "tv",
-      "year": 2024
+      "year": 2024,
+      "overview": "When aristocratic Eddie inherits the family estate, he discovers that it's home to an enormous weed empire — and its proprietors aren't going anywhere."
     },
     {
       "availability": [
@@ -257,7 +263,8 @@
       "title": "Die Falle",
       "tmdb_id": 283371,
       "tmdb_type": "tv",
-      "year": 2026
+      "year": 2026,
+      "overview": "Follow famous author Lisa Konrad, who has not left her house for a decade after witnessing the murder of her sister. One night she sees who she believes was the murdered on television, and decides to use herself as bait to catch them."
     },
     {
       "availability": [
@@ -287,7 +294,8 @@
       "title": "Avedon",
       "tmdb_id": 1666787,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "Richard Avedon's photographs didn't just reflect culture, they shaped it, and continue to do so. The feature documentary AVEDON traces the life and legacy of an artist who used fashion, portraiture, and commercial photography to explore identity, power, fear and beauty. With unprecedented access to Avedon's archive, including never before seen photos, behind the scenes recordings, and interviews with those who knew him best, AVEDON is a visually stunning examination of the mind of an artist who shaped our collective image of the 20th century."
     },
     {
       "availability": [
@@ -320,7 +328,8 @@
       "title": "Black Doves",
       "tmdb_id": 225385,
       "tmdb_type": "tv",
-      "year": 2024
+      "year": 2024,
+      "overview": "When a spy posing as a politician's wife learns her lover has been murdered, an old assassin friend joins her on a quest for truth — and vengeance."
     },
     {
       "availability": [
@@ -351,7 +360,8 @@
       "title": "Dorothy",
       "tmdb_id": 1578079,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "In rural Tamil Nadu, two inseparable childhood friends navigate a world shaped by caste, violence and toxic masculinity, until a compassionate woman enters their lives and quietly challenges the social order around them."
     },
     {
       "availability": [
@@ -391,7 +401,8 @@
       "title": "Daayra",
       "tmdb_id": 1215889,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "Raman, who has had a shady record with staged encounters and police brutality, finds himself cornered as Ajooni challenges him on every step."
     },
     {
       "availability": [
@@ -422,7 +433,8 @@
       "title": "The Good Lawyer",
       "tmdb_id": 1616419,
       "tmdb_type": "movie",
-      "year": 2026
+      "year": 2026,
+      "overview": "After a courtroom overdose lands him in rehab, a lawyer has one week to save his career and prepare for his own trial, with the help of a dogged intern."
     }
   ]
 }
