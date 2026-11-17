@@ -2547,6 +2547,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             loadBentoData();
             updateForYouHeader();
         });
+        // The "In cinemas" list comes from the same GitHub feed as the For you
+        // row (cinema.json, written daily by the pipeline), on the same resume +
+        // hourly cadence; the bundled asset is only the offline fallback.
+        BentoCinemaFetcher.refresh(this, () -> {
+            loadBentoData();
+        });
     }
 
     /** "For you · Reviewer Collective · Updated today / yesterday / N days ago" from the feed's generated_at. */
