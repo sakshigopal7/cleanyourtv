@@ -1,9 +1,129 @@
 {
-  "count": 9,
-  "generated_at": "2026-11-16T21:52:00+08:00",
+  "count": 12,
+  "generated_at": "2026-11-17T20:17:13.097785+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/70107406?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_movies_info",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/70107406?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_movies_info",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/8urrLPW6HFaIuRhJ1G3iQ7usEo7.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/8urrLPW6HFaIuRhJ1G3iQ7usEo7.jpg",
+      "first_seen": "2026-11-17",
+      "genres": [
+        "Comedy",
+        "Fantasy"
+      ],
+      "imdb_id": "tt0974661",
+      "language": "en",
+      "last_seen": "2026-11-17",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4064781696997804/",
+      "poster_path": "/yEcfFXEWpuXcfsR9nKESVCFneqV.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/yEcfFXEWpuXcfsR9nKESVCFneqV.jpg",
+      "title": "17 Again",
+      "tmdb_id": 16996,
+      "tmdb_type": "movie",
+      "year": 2009
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80118002?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixpatrol_netflix_id",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80118002?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixpatrol_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/1y4krc1zQf1R7qXiioHZsg9EsBw.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/1y4krc1zQf1R7qXiioHZsg9EsBw.jpg",
+      "first_seen": "2026-11-17",
+      "genres": [
+        "Crime",
+        "Drama"
+      ],
+      "imdb_id": "tt4434004",
+      "language": "hi",
+      "last_seen": "2026-11-17",
+      "media_type": "movie",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4064747837001190/",
+      "poster_path": "/c7BXGhHwvK1AfDCmfPTtw5LsuIU.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/c7BXGhHwvK1AfDCmfPTtw5LsuIU.jpg",
+      "title": "Udta Punjab",
+      "tmdb_id": 398535,
+      "tmdb_type": "movie",
+      "year": 2016
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81288983?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81288983?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/hzznrBI07C2chXivlLYvEmQESP7.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/hzznrBI07C2chXivlLYvEmQESP7.jpg",
+      "first_seen": "2026-11-17",
+      "genres": [
+        "Drama",
+        "War & Politics"
+      ],
+      "imdb_id": null,
+      "language": "en",
+      "last_seen": "2026-11-17",
+      "media_type": "tv",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4063925993750041/",
+      "poster_path": "/cUy0ZYme43lop08nOtbQLWL0dX.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/cUy0ZYme43lop08nOtbQLWL0dX.jpg",
+      "title": "The Diplomat",
+      "tmdb_id": 203857,
+      "tmdb_type": "tv",
+      "year": 2023
+    },
     {
       "availability": [
         {
@@ -26,7 +146,7 @@
       ],
       "imdb_id": null,
       "language": "ta",
-      "last_seen": "2026-11-16",
+      "last_seen": "2026-11-17",
       "media_type": "movie",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4063544090454898/",
       "poster_path": "/7wHBYs8HHmTGe4nXLpMEAoDSK2o.jpg",
