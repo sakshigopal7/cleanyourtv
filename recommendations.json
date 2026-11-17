@@ -1,9 +1,93 @@
 {
-  "count": 12,
-  "generated_at": "2026-11-17T20:38:35.956840+08:00",
+  "count": 14,
+  "generated_at": "2026-11-18T07:07:08.955283+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83197640?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_tudum_top10_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83197640?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_tudum_top10_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/zmfUqsFcQs6BjLJStofM5MD2l7L.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/zmfUqsFcQs6BjLJStofM5MD2l7L.jpg",
+      "first_seen": "2026-11-18",
+      "genres": [
+        "Crime",
+        "Thriller",
+        "Mystery"
+      ],
+      "imdb_id": "tt38265603",
+      "language": "ml",
+      "last_seen": "2026-11-18",
+      "media_type": "movie",
+      "overview": "After her husband's tragic death, Aleena joins the police force through a compassionate appointment. What begins as a quiet new chapter soon turns into a high-stakes battle of wits and courage, testing everything she believes about justice, loyalty, and herself.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4065910606884913/",
+      "poster_path": "/yJ78kbekUBZMcxla1lXABI9o2wL.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/yJ78kbekUBZMcxla1lXABI9o2wL.jpg",
+      "title": "Pradhama Drishtiya Kuttakkar",
+      "tmdb_id": 1544847,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82682338?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_tudum_top10_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82682338?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_tudum_top10_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/g1LJLlmWP74zv9yXKEXm7g9p10O.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/g1LJLlmWP74zv9yXKEXm7g9p10O.jpg",
+      "first_seen": "2026-11-18",
+      "genres": [
+        "Action & Adventure",
+        "Crime",
+        "Drama"
+      ],
+      "imdb_id": null,
+      "language": "ko",
+      "last_seen": "2026-11-18",
+      "media_type": "tv",
+      "overview": "When an unassuming dad's daughter goes missing, he dusts off his old black-ops skills to track her down — only to attract the wrong kind of attention.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4065593496916624/",
+      "poster_path": "/mxa7YxVln3Rwnd2Va82PoclTznj.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/mxa7YxVln3Rwnd2Va82PoclTznj.jpg",
+      "title": "Agent Kim Reactivated",
+      "tmdb_id": 296206,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
     {
       "availability": [
         {
@@ -42,8 +126,7 @@
       "title": "17 Again",
       "tmdb_id": 16996,
       "tmdb_type": "movie",
-      "year": 2009,
-      "overview": "On the brink of a midlife crisis, 30-something Mike O'Donnell wishes he could have a \"do-over.\" And that's exactly what he gets when he wakes up one morning to find he's 17 years old again. With his adult mind stuck inside the body of a teenager, Mike actually has the chance to reverse some decisions he wishes he'd never made. But maybe they weren't so bad after all."
+      "year": 2009
     },
     {
       "availability": [
@@ -83,8 +166,7 @@
       "title": "Udta Punjab",
       "tmdb_id": 398535,
       "tmdb_type": "movie",
-      "year": 2016,
-      "overview": "Drug abuse and the darker side of Punjab rear their heads in the intense, interwoven tales of a policeman, a doctor, a migrant worker, and a rockstar."
+      "year": 2016
     },
     {
       "availability": [
@@ -124,8 +206,7 @@
       "title": "The Diplomat",
       "tmdb_id": 203857,
       "tmdb_type": "tv",
-      "year": 2023,
-      "overview": "Amid an international crisis, a US diplomat contends with her high-profile job as ambassador to the UK and her strained marriage to a political star."
+      "year": 2023
     },
     {
       "availability": [
@@ -157,8 +238,7 @@
       "title": "Baththa",
       "tmdb_id": 1515692,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "In 1986 Madras, a timid eight-year-old boy accidentally traps a feared gangster inside a deserted school toilet. As the gangster is forced to confront hunger, loneliness and his own vulnerability, an unlikely bond begins to grow between the two."
+      "year": 2026
     },
     {
       "availability": [
@@ -189,8 +269,7 @@
       "title": "Being Heumann",
       "tmdb_id": 1050981,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "Scrappy, defiant, and done being treated like a burden, Judy Heumann turns her outrage into a revolution. In 1977, she and more than 100 disability rights protestors send a very loud message: The system is broken—not us."
+      "year": 2026
     },
     {
       "availability": [
@@ -222,8 +301,7 @@
       "title": "The Gentlemen",
       "tmdb_id": 236235,
       "tmdb_type": "tv",
-      "year": 2024,
-      "overview": "When aristocratic Eddie inherits the family estate, he discovers that it's home to an enormous weed empire — and its proprietors aren't going anywhere."
+      "year": 2024
     },
     {
       "availability": [
@@ -263,8 +341,7 @@
       "title": "Die Falle",
       "tmdb_id": 283371,
       "tmdb_type": "tv",
-      "year": 2026,
-      "overview": "Follow famous author Lisa Konrad, who has not left her house for a decade after witnessing the murder of her sister. One night she sees who she believes was the murdered on television, and decides to use herself as bait to catch them."
+      "year": 2026
     },
     {
       "availability": [
@@ -294,8 +371,7 @@
       "title": "Avedon",
       "tmdb_id": 1666787,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "Richard Avedon's photographs didn't just reflect culture, they shaped it, and continue to do so. The feature documentary AVEDON traces the life and legacy of an artist who used fashion, portraiture, and commercial photography to explore identity, power, fear and beauty. With unprecedented access to Avedon's archive, including never before seen photos, behind the scenes recordings, and interviews with those who knew him best, AVEDON is a visually stunning examination of the mind of an artist who shaped our collective image of the 20th century."
+      "year": 2026
     },
     {
       "availability": [
@@ -320,7 +396,7 @@
       ],
       "imdb_id": "tt27995113",
       "language": "en",
-      "last_seen": "2026-11-16",
+      "last_seen": "2026-11-18",
       "media_type": "tv",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059952704147370/",
       "poster_path": "/srlsyEfIBz2MNWBndVc3opOaNGS.jpg",
@@ -328,8 +404,7 @@
       "title": "Black Doves",
       "tmdb_id": 225385,
       "tmdb_type": "tv",
-      "year": 2024,
-      "overview": "When a spy posing as a politician's wife learns her lover has been murdered, an old assassin friend joins her on a quest for truth — and vengeance."
+      "year": 2024
     },
     {
       "availability": [
@@ -360,8 +435,7 @@
       "title": "Dorothy",
       "tmdb_id": 1578079,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "In rural Tamil Nadu, two inseparable childhood friends navigate a world shaped by caste, violence and toxic masculinity, until a compassionate woman enters their lives and quietly challenges the social order around them."
+      "year": 2026
     },
     {
       "availability": [
@@ -401,8 +475,7 @@
       "title": "Daayra",
       "tmdb_id": 1215889,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "Raman, who has had a shady record with staged encounters and police brutality, finds himself cornered as Ajooni challenges him on every step."
+      "year": 2026
     },
     {
       "availability": [
@@ -433,8 +506,7 @@
       "title": "The Good Lawyer",
       "tmdb_id": 1616419,
       "tmdb_type": "movie",
-      "year": 2026,
-      "overview": "After a courtroom overdose lands him in rehab, a lawyer has one week to save his career and prepare for his own trial, with the help of a dogged intern."
+      "year": 2026
     }
   ]
 }
