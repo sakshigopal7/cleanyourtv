@@ -1,5 +1,5 @@
 {
-  "notes": "I Play Rocky (RC cinema-only) is NOT listed: no Singapore cinema listing found on 16 Nov 2026 (US wide release 20 Nov; India 13 Nov). Re-check on later runs. Overviews + details from TMDB (Wildwood 791523, Ramayana: Rise of a Legend 656908), fetched 16 Nov 2026.",
+  "notes": "Verified screening in Singapore on 2026-11-17 via Shaw / Golden Village Singapore listings.",
   "source": "reviewer-collective",
   "titles": [
     {
@@ -33,6 +33,6 @@
       "year": 2026
     }
   ],
-  "verified_on": "2026-11-16",
-  "verified_via": "now-sg.com + cinemaonline.sg Singapore listings (Shaw, Golden Village), 16 Nov 2026"
+  "verified_on": "2026-11-17",
+  "verified_via": "Shaw / Golden Village Singapore listings"
 }
