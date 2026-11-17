@@ -2836,27 +2836,101 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 });
     }
 
+    /** Details for a For you / My List card: the same details dialog as cinema
+     * (title, meta, synopsis, Close) — NOT another menu. Long-press > Details
+     * used to open a second 2-item menu (Watch now / Close); that was the bug. */
     private void showBentoDetails(BentoTitle title) {
-        StringBuilder sb = new StringBuilder();
-        if (title.year > 0) sb.append(title.year);
-        if (title.language != null && !title.language.isEmpty()) {
-            if (sb.length() > 0) sb.append(" · ");
-            sb.append(title.language);
+        if (title == null) return;
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bento_details);
+        android.view.Window w = dialog.getWindow();
+        if (w != null) {
+            w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            w.setDimAmount(0.6f);
         }
-        if (title.provider != null) {
-            if (sb.length() > 0) sb.append(" · ");
-            sb.append(title.provider);
+        TextView titleView = dialog.findViewById(R.id.detailsTitle);
+        TextView meta = dialog.findViewById(R.id.detailsMeta);
+        TextView overview = dialog.findViewById(R.id.detailsOverview);
+        TextView close = dialog.findViewById(R.id.detailsClose);
+        if (titleView != null) titleView.setText(title.title);
+        if (meta != null) {
+            StringBuilder sb = new StringBuilder();
+            if (title.year > 0) sb.append(title.year);
+            String lang = displayLanguage(title.language);
+            if (!lang.isEmpty()) {
+                if (sb.length() > 0) sb.append(" · ");
+                sb.append(lang);
+            }
+            String genreText = title.genreText();
+            if (!genreText.isEmpty()) {
+                if (sb.length() > 0) sb.append(" · ");
+                sb.append(genreText);
+            }
+            if (title.provider != null) {
+                if (sb.length() > 0) sb.append(" · ");
+                sb.append(title.provider);
+            }
+            if (title.vpnLabel != null) {
+                if (sb.length() > 0) sb.append(" · ");
+                sb.append(title.vpnLabel);
+            }
+            if (!title.isPlayable()) {
+                if (sb.length() > 0) sb.append(" · ");
+                sb.append("Not streaming on your apps yet");
+            }
+            meta.setText(sb.toString());
+            meta.setVisibility(sb.length() == 0 ? View.GONE : View.VISIBLE);
         }
-        if (title.vpnLabel != null) {
-            if (sb.length() > 0) sb.append(" · ");
-            sb.append(title.vpnLabel);
+        if (overview != null) {
+            overview.setText(title.overview != null && !title.overview.isEmpty()
+                    ? title.overview : "No synopsis available.");
         }
-        showBentoMenu(title.title, sb.toString(),
-                new String[]{"Watch now", "Close"},
-                new Runnable[]{
-                        () -> BentoStore.playTitle(MainActivity.this, title),
-                        () -> {}
-                });
+        if (close != null) {
+            close.setOnClickListener(v -> dialog.dismiss());
+            close.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                // BACK must reach the dialog itself, or it can never be dismissed
+                // with the remote's Back key (it was swallowed here before).
+                if (keyCode == KeyEvent.KEYCODE_BACK) return false;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER) {
+                    dialog.dismiss();
+                    return true;
+                }
+                return true; // single-button dialog: swallow all D-pad navigation
+            });
+        }
+        dialog.show();
+        if (close != null) close.requestFocus();
+    }
+
+    /** TMDB ISO 639-1 code to display name; the feed carries the code ("en"),
+     * the UI must never show the code itself. Unknown codes pass through. */
+    private static String displayLanguage(String iso) {
+        if (iso == null || iso.isEmpty()) return "";
+        switch (iso.toLowerCase(java.util.Locale.US)) {
+            case "en": return "English";
+            case "hi": return "Hindi";
+            case "ta": return "Tamil";
+            case "te": return "Telugu";
+            case "ml": return "Malayalam";
+            case "kn": return "Kannada";
+            case "mr": return "Marathi";
+            case "bn": return "Bengali";
+            case "pa": return "Punjabi";
+            case "gu": return "Gujarati";
+            case "ur": return "Urdu";
+            case "es": return "Spanish";
+            case "fr": return "French";
+            case "de": return "German";
+            case "it": return "Italian";
+            case "pt": return "Portuguese";
+            case "ru": return "Russian";
+            case "ja": return "Japanese";
+            case "ko": return "Korean";
+            case "zh": return "Chinese";
+            default: return iso;
+        }
     }
 
     /** Slice 7: TMDB search. A dialog with a text field (on-screen keyboard on
