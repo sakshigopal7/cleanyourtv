@@ -2354,12 +2354,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (forYouRecycler != null) {
             forYouRecycler.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
             forYouAdapter = new BentoPosterAdapter();
+            forYouAdapter.setShowSearchTile(true);
             forYouRecycler.setAdapter(forYouAdapter);
             forYouAdapter.setOnPosterClickListener((position, title, v) -> {
-                if (title.isSkippedButton) showRestoreSkippedDialog();
+                if (title.isSearchTile) showSearchDialog();
+                else if (title.isSkippedButton) showRestoreSkippedDialog();
                 else BentoStore.playTitle(MainActivity.this, title);
             });
             forYouAdapter.setOnPosterLongClickListener((position, title, v) -> {
+                if (title.isSearchTile) return;
                 if (title.isSkippedButton) showRestoreSkippedDialog();
                 else showForYouMenu(position, title);
             });
@@ -2811,6 +2814,163 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                         () -> BentoStore.playTitle(MainActivity.this, title),
                         () -> {}
                 });
+    }
+
+    /** Slice 7: TMDB search. A dialog with a text field (on-screen keyboard on
+     * focus) and a results row of poster cards. Short OK on a result opens its
+     * details; Add to My List lives there. Skipped titles never re-appear;
+     * results already in My List carry the badge. BACK dismisses the dialog. */
+    private void showSearchDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bento_search);
+        android.view.Window w = dialog.getWindow();
+        if (w != null) {
+            w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            w.setDimAmount(0.6f);
+        }
+        android.widget.EditText input = dialog.findViewById(R.id.searchInput);
+        TextView go = dialog.findViewById(R.id.searchGo);
+        TextView status = dialog.findViewById(R.id.searchStatus);
+        RecyclerView results = dialog.findViewById(R.id.searchResults);
+        BentoPosterAdapter resultsAdapter = new BentoPosterAdapter();
+        if (results != null) {
+            results.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+            results.setAdapter(resultsAdapter);
+        }
+        resultsAdapter.setOnPosterClickListener((pos, title, v) -> showSearchDetails(title, resultsAdapter));
+        resultsAdapter.setOnPosterLongClickListener((pos, title, v) -> showSearchDetails(title, resultsAdapter));
+        Runnable runSearch = () -> {
+            String q = input != null ? input.getText().toString().trim() : "";
+            if (q.isEmpty()) {
+                if (status != null) status.setText("Type a title to search");
+                return;
+            }
+            if (status != null) status.setText("Searching\u2026");
+            resultsAdapter.setItems(new ArrayList<>());
+            BentoTmdbSearch.search(q, new BentoTmdbSearch.Callback() {
+                @Override public void onResults(List<BentoTitle> found) {
+                    Set<String> skipped = BentoStore.loadSkippedKeys(MainActivity.this);
+                    Set<String> inList = BentoStore.loadMyListKeys(MainActivity.this);
+                    List<BentoTitle> shown = new ArrayList<>();
+                    for (BentoTitle t : found) {
+                        if (skipped.contains(t.identityKey())) continue;
+                        shown.add(inList.contains(t.identityKey()) ? t.withInMyList(true) : t);
+                    }
+                    resultsAdapter.setItems(shown);
+                    if (status != null) {
+                        status.setText(shown.isEmpty()
+                                ? "No results for \u201c" + q + "\u201d"
+                                : shown.size() + " result" + (shown.size() == 1 ? "" : "s") + " \u2014 OK for details");
+                    }
+                    if (!shown.isEmpty() && results != null && results.getLayoutManager() != null) {
+                        results.post(() -> {
+                            View first = results.getLayoutManager().findViewByPosition(0);
+                            if (first != null) first.requestFocus();
+                        });
+                    }
+                }
+                @Override public void onError(String message) {
+                    if (status != null) status.setText(message);
+                }
+            });
+        };
+        if (go != null) go.setOnClickListener(v -> runSearch.run());
+        if (input != null) {
+            input.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
+                        || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                                && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                    runSearch.run();
+                    return true;
+                }
+                return false;
+            });
+        }
+        dialog.show();
+        if (input != null) {
+            input.requestFocus();
+            android.view.inputmethod.InputMethodManager imm =
+                    (android.view.inputmethod.InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.showSoftInput(input, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    /** Search result details: synopsis, meta, Add to My List / Remove from My List.
+     * Unplayable titles (no verified provider URL) say so in the meta line; OK here
+     * never fires a dead link — playback happens from My List once it can play. */
+    private void showSearchDetails(BentoTitle title, BentoPosterAdapter resultsAdapter) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bento_search_details);
+        android.view.Window w = dialog.getWindow();
+        if (w != null) {
+            w.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            w.setDimAmount(0.6f);
+        }
+        TextView titleView = dialog.findViewById(R.id.detailsTitle);
+        TextView meta = dialog.findViewById(R.id.detailsMeta);
+        TextView overview = dialog.findViewById(R.id.detailsOverview);
+        TextView add = dialog.findViewById(R.id.detailsAdd);
+        TextView close = dialog.findViewById(R.id.detailsClose);
+        if (titleView != null) titleView.setText(title.title);
+        if (meta != null) {
+            StringBuilder sb = new StringBuilder();
+            if (title.year > 0) sb.append(title.year);
+            if (title.language != null && !title.language.isEmpty()) {
+                if (sb.length() > 0) sb.append(" \u00b7 ");
+                sb.append(title.language);
+            }
+            String genreText = title.genreText();
+            if (!genreText.isEmpty()) {
+                if (sb.length() > 0) sb.append(" \u00b7 ");
+                sb.append(genreText);
+            }
+            if (title.provider != null) {
+                if (sb.length() > 0) sb.append(" \u00b7 ");
+                sb.append(title.provider);
+            }
+            if (title.vpnLabel != null) {
+                if (sb.length() > 0) sb.append(" \u00b7 ");
+                sb.append(title.vpnLabel);
+            }
+            if (!title.isPlayable()) {
+                if (sb.length() > 0) sb.append(" \u00b7 ");
+                sb.append("Not streaming on your apps yet");
+            }
+            meta.setText(sb.toString());
+            meta.setVisibility(sb.length() == 0 ? View.GONE : View.VISIBLE);
+        }
+        if (overview != null) {
+            overview.setText(title.overview != null && !title.overview.isEmpty()
+                    ? title.overview : "No synopsis available.");
+        }
+        if (add != null) {
+            boolean inList = BentoStore.loadMyListKeys(this).contains(title.identityKey());
+            add.setText(inList ? "Remove from My List" : "Add to My List");
+            add.setOnClickListener(v -> {
+                if (BentoStore.loadMyListKeys(MainActivity.this).contains(title.identityKey())) {
+                    BentoStore.removeFromMyList(MainActivity.this, title);
+                    Toast.makeText(MainActivity.this, "Removed from My List", Toast.LENGTH_SHORT).show();
+                } else {
+                    BentoStore.addToMyList(MainActivity.this, title, "search");
+                    Toast.makeText(MainActivity.this, "Added to My List", Toast.LENGTH_SHORT).show();
+                }
+                loadBentoData();
+                if (resultsAdapter != null) {
+                    boolean nowIn = BentoStore.loadMyListKeys(MainActivity.this).contains(title.identityKey());
+                    List<BentoTitle> updated = new ArrayList<>();
+                    for (BentoTitle t : resultsAdapter.getItems()) {
+                        updated.add(t.identityKey().equals(title.identityKey()) ? t.withInMyList(nowIn) : t);
+                    }
+                    resultsAdapter.setItems(updated);
+                }
+                dialog.dismiss();
+            });
+        }
+        if (close != null) close.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+        if (add != null) add.requestFocus();
     }
 
     private void showBentoMenu(String titleText, String subtitleText, String[] labels, Runnable[] actions) {

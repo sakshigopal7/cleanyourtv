@@ -6,6 +6,13 @@ android {
     namespace 'com.gathin.tvhome'
     compileSdk 34
 
+    buildFeatures {
+        // Search needs the TMDB key at runtime: it is read from local.properties
+        // (repo root or module dir) into BuildConfig. The key value never appears
+        // in source, assets, or git; local.properties is gitignored.
+        buildConfig true
+    }
+
     defaultConfig {
         // Opt-in identity for firmware with a package-name HOME allowlist.
         // Xiaomi: docs/devices/xiaomi-mitv-aetp0-dofus.md (com.ts.launcher).
@@ -13,8 +20,20 @@ android {
         applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
         minSdk 26
         targetSdk 34
-        versionCode 14
-        versionName '3.5'
+        versionCode 15
+        versionName '3.6'
+
+        // TMDB API key for on-TV search (same key as the daily pipeline).
+        // local.properties lives at the repo root; the module dir is the fallback.
+        def tmdbKey = ""
+        def keyProps = new Properties()
+        def keyFile = rootProject.file('../local.properties')
+        if (!keyFile.exists()) keyFile = rootProject.file('local.properties')
+        if (keyFile.exists()) {
+            keyFile.withInputStream { keyProps.load(it) }
+            tmdbKey = keyProps.getProperty('tmdb_api_key', '').trim()
+        }
+        buildConfigField 'String', 'TMDB_API_KEY', '"' + tmdbKey + '"'
     }
 
     buildTypes {

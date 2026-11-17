@@ -44,15 +44,22 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
     private OnPosterFocusListener focusListener;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private boolean showMyListBadge = true;
+    private boolean showSearchTile = false;
 
     /** My List row hides the "\u2713 My List" badge (redundant there); For you shows it. */
     public void setShowMyListBadge(boolean show) {
         showMyListBadge = show;
     }
 
+    /** For you row only: a "Search" tile at position 0 that opens the TMDB search dialog. */
+    public void setShowSearchTile(boolean show) {
+        showSearchTile = show;
+    }
+
     public void setItems(List<BentoTitle> newItems) {
         items.clear();
         if (newItems != null) items.addAll(newItems);
+        if (showSearchTile) items.add(0, BentoTitle.createSearchTile());
         notifyDataSetChanged();
     }
 
@@ -79,7 +86,17 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
         holder.itemView.setAlpha(1f);
         holder.itemView.setTranslationX(0f);
         holder.itemView.setTranslationY(0f);
-        if (title.isSkippedButton) {
+        if (title.isSearchTile) {
+            holder.image.setImageDrawable(holder.itemView.getContext().getDrawable(R.drawable.ic_search));
+            holder.image.setScaleType(ImageView.ScaleType.CENTER);
+            holder.image.setTag(null);
+            holder.badge.setVisibility(View.GONE);
+            holder.platform.setVisibility(View.GONE);
+            holder.posterNew.setVisibility(View.GONE);
+            holder.genre.setVisibility(View.GONE);
+            holder.title.setText("Search");
+            holder.title.setMaxLines(1);
+        } else if (title.isSkippedButton) {
             holder.image.setImageDrawable(null);
             holder.badge.setVisibility(View.GONE);
             holder.platform.setVisibility(View.GONE);
@@ -88,6 +105,8 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
             holder.title.setText(title.title + "\nOK: Restore");
             holder.title.setMaxLines(2);
         } else {
+            holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.title.setMaxLines(2);
             holder.title.setText(title.title);
             if (title.provider != null) {
                 holder.platform.setText(title.provider);

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Search dialog: type a title, results are TMDB poster cards (same rendering as
+     the For you row). OK on a result opens its details; Add to My List lives there. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bento_card_bg"
+    android:padding="24dp">
+    <LinearLayout
+        android:layout_width="1100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textColor="#FFFFFFFF"
+            android:textSize="18sp"
+            android:fontFamily="@string/font_medium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/searchInput"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/pill_bg"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:hint="Search movies and shows…"
+                android:textColor="#FFFFFFFF"
+                android:textColorHint="#80FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@string/font_regular"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:focusable="true"
+                android:clickable="true" />
+            <TextView
+                android:id="@+id/searchGo"
+                android:layout_width="140dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:background="@drawable/pill_bg"
+                android:textColor="@drawable/pill_text"
+                android:text="Search"
+                android:textSize="14sp"
+                android:fontFamily="@string/font_medium"
+                android:focusable="true"
+                android:clickable="true"
+                android:defaultFocusHighlightEnabled="false" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/searchStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Type a title, then press Search"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_regular"
+            android:maxLines="1"
+            android:ellipsize="end" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResults"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:clipToPadding="false" />
+    </LinearLayout>
+</FrameLayout>

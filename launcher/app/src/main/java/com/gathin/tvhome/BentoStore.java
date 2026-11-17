@@ -141,6 +141,11 @@ public final class BentoStore {
     }
 
     public static void addToMyList(Context ctx, BentoTitle title) {
+        addToMyList(ctx, title, "reviewer-collective");
+    }
+
+    /** addedFrom records where the title came from ("reviewer-collective" or "search"). */
+    public static void addToMyList(Context ctx, BentoTitle title, String addedFrom) {
         android.util.Log.d("TvHome.Bento", "addToMyList " + title.identityKey());
         List<BentoTitle> list = loadMyList(ctx);
         for (BentoTitle t : list) {
@@ -148,7 +153,7 @@ public final class BentoStore {
         }
         if (list.size() >= MYLIST_MAX) list.remove(list.size() - 1);
         list.add(0, title);
-        saveMyList(ctx, list);
+        saveMyList(ctx, list, addedFrom);
         android.util.Log.d("TvHome.Bento", "addToMyList saved, count=" + list.size());
     }
 
@@ -162,6 +167,10 @@ public final class BentoStore {
     }
 
     private static void saveMyList(Context ctx, List<BentoTitle> list) {
+        saveMyList(ctx, list, "reviewer-collective");
+    }
+
+    private static void saveMyList(Context ctx, List<BentoTitle> list, String addedFrom) {
         try {
             JSONObject root = new JSONObject();
             root.put("version", 1);
@@ -171,7 +180,7 @@ public final class BentoStore {
             for (BentoTitle t : list) {
                 JSONObject o = t.toJson();
                 o.put("added_at", isoNow());
-                o.put("added_from", "reviewer-collective");
+                o.put("added_from", addedFrom);
                 items.put(o);
             }
             root.put("items", items);

@@ -33,9 +33,11 @@ public final class BentoTitle {
     public final String requiresVpn;    // null | "IN" | ...
     public final String vpnLabel;       // e.g. "ExpressVPN to India", may be null
     public final List<String> genres;   // TMDB genre names, may be empty; never invented
+    public final String overview;       // TMDB synopsis, may be null (search results carry it)
     public final boolean isInMyList;
     public final boolean isSkippedButton;
     public final int skippedCount;
+    public final boolean isSearchTile;  // synthetic "Search" tile at the head of the For you row
 
     BentoTitle(String title, String mediaType, int tmdbId, String tmdbType, String imdbId,
                        String posterPath, String posterUrl, String backdropPath, String backdropUrl,
@@ -43,7 +45,8 @@ public final class BentoTitle {
                        String firstSeen, String lastSeen, String postUrl,
                        String providerUrl, String provider, String urlSource,
                        String requiresVpn, String vpnLabel, List<String> genres,
-                       boolean isInMyList, boolean isSkippedButton, int skippedCount) {
+                       boolean isInMyList, boolean isSkippedButton, int skippedCount,
+                       String overview, boolean isSearchTile) {
         this.title = title;
         this.mediaType = mediaType != null ? mediaType : "movie";
         this.tmdbId = tmdbId;
@@ -64,9 +67,11 @@ public final class BentoTitle {
         this.requiresVpn = requiresVpn;
         this.vpnLabel = vpnLabel;
         this.genres = genres != null ? genres : new ArrayList<>();
+        this.overview = overview;
         this.isInMyList = isInMyList;
         this.isSkippedButton = isSkippedButton;
         this.skippedCount = skippedCount;
+        this.isSearchTile = isSearchTile;
     }
 
     /** Identity for dedupe: TMDB ID + media type, falling back to the title. */
@@ -79,7 +84,8 @@ public final class BentoTitle {
         return new BentoTitle(title, mediaType, tmdbId, tmdbType, imdbId, posterPath, posterUrl,
                 backdropPath, backdropUrl,
                 year, language, firstSeen, lastSeen, postUrl, providerUrl, provider, urlSource,
-                requiresVpn, vpnLabel, genres, inMyList, isSkippedButton, skippedCount);
+                requiresVpn, vpnLabel, genres, inMyList, isSkippedButton, skippedCount,
+                overview, isSearchTile);
     }
 
     public boolean isPlayable() {
@@ -101,7 +107,14 @@ public final class BentoTitle {
     public static BentoTitle createSkippedButton(int count) {
         return new BentoTitle("Removed (" + count + ")", "action", -999, "action", null,
                 null, null, null, null, 0, null, null, null, null,
-                null, null, null, null, null, null, false, true, count);
+                null, null, null, null, null, null, false, true, count, null, false);
+    }
+
+    /** Synthetic tile at the head of the For you row: OK opens the TMDB search dialog. */
+    public static BentoTitle createSearchTile() {
+        return new BentoTitle("Search", "action", -998, "action", null,
+                null, null, null, null, 0, null, null, null, null,
+                null, null, null, null, null, null, false, false, 0, null, true);
     }
 
     /** At most two genres for the card label ("Drama · Comedy"); "" when none are known. */
@@ -135,6 +148,7 @@ public final class BentoTitle {
         String firstSeen = optNullable(item, "first_seen");
         String lastSeen = optNullable(item, "last_seen");
         String postUrl = optNullable(item, "post_url");
+        String overview = optNullable(item, "overview");
         List<String> genres = new ArrayList<>();
         JSONArray ga = item.optJSONArray("genres");
         if (ga != null) {
@@ -145,10 +159,17 @@ public final class BentoTitle {
         }
 
         // Availability: prefer SG, then IN (with its VPN label), then any entry.
+        // Within a country, prefer an entry with a playable URL; and if the SG
+        // pick has no verified link but the IN pick does, take the IN link — a
+        // title must not read "not streaming" while a playable IN source exists.
         String providerUrl = null, provider = null, urlSource = null, requiresVpn = null, vpnLabel = null;
         JSONArray avail = item.optJSONArray("availability");
         if (avail != null) {
             JSONObject pick = pickAvailability(avail, "SG");
+            if (pick != null && optNullable(pick, "provider_url") == null) {
+                JSONObject inPick = pickAvailability(avail, "IN");
+                if (inPick != null && optNullable(inPick, "provider_url") != null) pick = inPick;
+            }
             if (pick == null) pick = pickAvailability(avail, "IN");
             if (pick == null && avail.length() > 0) pick = avail.optJSONObject(0);
             if (pick != null) {
@@ -163,15 +184,25 @@ public final class BentoTitle {
                 backdropPath, backdropUrl,
                 year, language, firstSeen, lastSeen, postUrl,
                 providerUrl, provider, urlSource, requiresVpn, vpnLabel, genres,
-                inMyList, false, 0);
+                inMyList, false, 0, overview, false);
     }
 
+    /**
+     * First entry for the country, preferring one with a playable provider URL:
+     * a search result whose SG entry has no verified link must not shadow an IN
+     * entry that does (and vice versa). Feed entries always carry a URL, so the
+     * feed is unaffected.
+     */
     private static JSONObject pickAvailability(JSONArray avail, String country) {
+        JSONObject fallback = null;
         for (int i = 0; i < avail.length(); i++) {
             JSONObject a = avail.optJSONObject(i);
-            if (a != null && country.equalsIgnoreCase(a.optString("country", ""))) return a;
+            if (a != null && country.equalsIgnoreCase(a.optString("country", ""))) {
+                if (fallback == null) fallback = a;
+                if (optNullable(a, "provider_url") != null) return a;
+            }
         }
-        return null;
+        return fallback;
     }
 
     static String optNullable(JSONObject o, String key) {
@@ -202,6 +233,7 @@ public final class BentoTitle {
             if (firstSeen != null) o.put("first_seen", firstSeen);
             if (lastSeen != null) o.put("last_seen", lastSeen);
             if (postUrl != null) o.put("post_url", postUrl);
+            if (overview != null) o.put("overview", overview);
             JSONArray avail = new JSONArray();
             if (providerUrl != null) {
                 JSONObject a = new JSONObject();
