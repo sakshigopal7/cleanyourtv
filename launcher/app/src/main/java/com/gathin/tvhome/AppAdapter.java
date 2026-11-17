@@ -137,6 +137,12 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** item_app.xml: 8dp padding above and below, a 7dp gap and the 22dp name label under the tile. */
     static final float ITEM_EXTRA_DP = 45;
+    /** Room the dock tile takes above itself: DockDecoration's 6dp top offset plus item_app.xml's 4dp top padding. */
+    static final float DOCK_TILE_TOP_DP = 10f;
+    /** The dock item's own padding when its name is GONE: 4dp above and below the tile, nothing else. */
+    static final float DOCK_ITEM_PADDING_DP = 8f;
+    /** Slack for rounding in the focused-tile fit, so a tile never lands 1px over the grid's edge. */
+    static final float DOCK_FOCUS_SLACK_DP = 2f;
     /** DockDecoration's offsets above and below the dock row. */
     static final float DOCK_EXTRA_DP = 6 + 12;
     /** Room kept under the last row rows_below_dock asks for (MainActivity places the dock with the same). */
@@ -149,19 +155,27 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * Tile width that fits the columns across and, with rows_below_dock > 0, the dock (with its title above it,
      * if shown) plus that many rows down the grid's height; the smaller wins. With rows_below_dock = 0 the dock
-     * row itself must fit the grid's height: the width-only tile (133dp here) made a 120dp item in an 84dp
-     * strip, so the dock cards were cut off at the bottom. Without this, 2 or 3 rows below the dock did not
-     * fit: the dock was pushed to the top and its title drew over the clock. With dock_row false there is no band
-     * or title to make room for: the first row plus rows_below_dock rows fit under a small top margin.
+     * row itself must fit the grid's height. The dock tiles never show their name (GONE, not INVISIBLE), so the
+     * dock item is only the tile plus its 4dp+4dp padding: the 45dp the name used to take must not be charged,
+     * or the tile shrinks for room that is not there. And the tile must fit whole when focused, grown by the
+     * focus zoom: the band below the row is decoration the wrapper clips, so it is not reserved. With dock_row
+     * false there is no band or title to make room for: the first row plus rows_below_dock rows fit under a
+     * small top margin.
      */
     static int tileWidthPx(int innerWidthPx, int gridHeightPx, int columns, int rowsBelowDock, boolean dockTitle,
-                           boolean dockRow, float density) {
+                           boolean dockRow, float density, boolean dockNames, float focusScale) {
         int w = tileWidthPx(innerWidthPx, columns, density);
         if (gridHeightPx <= 0) return w;
+        if (dockRow && rowsBelowDock == 0) {
+            float topDp = DOCK_TILE_TOP_DP + (dockTitle ? TITLE_ROOM_DP : 0);
+            float tileH = (gridHeightPx / density - topDp - DOCK_FOCUS_SLACK_DP) / focusScale;
+            int byHeight = Math.round(tileH * density * DESIGN_W_DP / DESIGN_H_DP);
+            return Math.max(Math.max(Math.round(80 * density), Math.round(w * MIN_HEIGHT_FIT)), Math.min(w, byHeight));
+        }
         float reserved = (dockRow ? DOCK_EXTRA_DP + (rowsBelowDock > 0 ? BOTTOM_ROOM_DP : 0) + (dockTitle ? TITLE_ROOM_DP : 0)
                 : TOP_ROOM_DP + COMPACT_BOTTOM_ROOM_DP) * density;
         float perItem = (gridHeightPx - reserved) / (rowsBelowDock + 1);
-        float tileH = perItem - (dockRow ? ITEM_EXTRA_DP : COMPACT_ITEM_EXTRA_DP) * density;
+        float tileH = perItem - (dockRow ? (dockNames ? ITEM_EXTRA_DP : DOCK_ITEM_PADDING_DP) : COMPACT_ITEM_EXTRA_DP) * density;
         int byHeight = Math.round(tileH * DESIGN_W_DP / DESIGN_H_DP);
         // Shrink at most to MIN_HEIGHT_FIT of the width-only size. Below that the tiles look lost in their wide
         // columns (2 rows under a titled dock came out at 80dp); the rows that still don't fit run off the bottom
@@ -416,7 +430,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         float density = parent.getResources().getDisplayMetrics().density;
         int width = parent.getWidth() > 0 ? parent.getWidth() : parent.getMeasuredWidth();
         int inner = width - parent.getPaddingLeft() - parent.getPaddingRight();
-        int w = tileWidthPx(inner, parent.getHeight(), dockSize, rowsBelowDock, dockTitle, dockRow, density), h = tileHeightPx(w);
+        int w = tileWidthPx(inner, parent.getHeight(), dockSize, rowsBelowDock, dockTitle, dockRow, density,
+                restNameAlpha > 0f, focusScale()), h = tileHeightPx(w);
         View card = v.findViewById(R.id.card);
         ViewGroup.LayoutParams cardLp = card.getLayoutParams();
         cardLp.width = w;

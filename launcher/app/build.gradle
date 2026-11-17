@@ -20,8 +20,8 @@ android {
         applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
         minSdk 26
         targetSdk 34
-        versionCode 16
-        versionName '3.7'
+        versionCode 17
+        versionName '3.8'
 
         // TMDB API key for on-TV search (same key as the daily pipeline).
         // local.properties lives at the repo root; the module dir is the fallback.

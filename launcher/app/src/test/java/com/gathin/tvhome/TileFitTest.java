@@ -21,8 +21,8 @@ public class TileFitTest {
     @Test
     public void noRowsBelowDockKeepsTheWidthOnlySize() {
         int widthOnly = AppAdapter.tileWidthPx(INNER, 4, D);
-        assertEquals(widthOnly, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 0, true, true, D));
-        assertEquals(widthOnly, AppAdapter.tileWidthPx(INNER, 0, 4, 3, true, true, D));   // not laid out yet
+        assertEquals(widthOnly, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 0, true, true, D, false, 1.12f));
+        assertEquals(widthOnly, AppAdapter.tileWidthPx(INNER, 0, 4, 3, true, true, D, true, 1.12f));   // not laid out yet
     }
 
     @Test
@@ -30,7 +30,7 @@ public class TileFitTest {
         int floor = Math.round(AppAdapter.tileWidthPx(INNER, 4, D) * AppAdapter.MIN_HEIGHT_FIT);
         for (int rows = 1; rows <= 3; rows++) {
             for (boolean title : new boolean[]{true, false}) {
-                int w = AppAdapter.tileWidthPx(INNER, GRID_H, 4, rows, title, true, D);
+                int w = AppAdapter.tileWidthPx(INNER, GRID_H, 4, rows, title, true, D, true, 1.12f);
                 assertTrue("rows " + rows + " title " + title + " below the floor", w >= floor);
                 if (w > floor) assertTrue("rows " + rows + " title " + title, height(w, rows, title) <= GRID_H + 2);
             }
@@ -39,7 +39,7 @@ public class TileFitTest {
 
     @Test
     public void oneRowUnderATitledDockFits() {
-        int w = AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, true, true, D);
+        int w = AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, true, true, D, true, 1.12f);
         assertTrue(w < AppAdapter.tileWidthPx(INNER, 4, D));
         assertTrue(height(w, 1, true) <= GRID_H + 2);
     }
@@ -49,14 +49,14 @@ public class TileFitTest {
         // Two or three rows under a titled dock would need tiles under half their size: they stop at 85% and
         // the extra rows run off the bottom instead.
         int floor = Math.round(AppAdapter.tileWidthPx(INNER, 4, D) * AppAdapter.MIN_HEIGHT_FIT);
-        assertEquals(floor, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 2, true, true, D));
-        assertEquals(floor, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 3, true, true, D));
+        assertEquals(floor, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 2, true, true, D, true, 1.12f));
+        assertEquals(floor, AppAdapter.tileWidthPx(INNER, GRID_H, 4, 3, true, true, D, true, 1.12f));
     }
 
     @Test
     public void plainGridFitsFourRowsAtSixColumns() {
         // dock_row false, rows_below_dock 3: the first row and 3 more under a 12dp top margin.
-        int w = AppAdapter.tileWidthPx(INNER, GRID_H, 6, 3, true, false, D);
+        int w = AppAdapter.tileWidthPx(INNER, GRID_H, 6, 3, true, false, D, true, 1.12f);
         int itemH = AppAdapter.itemHeightPx(AppAdapter.tileHeightPx(w), false, D);
         int needed = itemH * 4 + Math.round((AppAdapter.TOP_ROOM_DP + AppAdapter.COMPACT_BOTTOM_ROOM_DP) * D);
         assertTrue(needed + " > " + GRID_H, needed <= GRID_H + 2);
@@ -66,7 +66,7 @@ public class TileFitTest {
 
     @Test
     public void droppingTheTitleGivesBiggerTiles() {
-        assertTrue(AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, false, true, D)
-                > AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, true, true, D));
+        assertTrue(AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, false, true, D, true, 1.12f)
+                > AppAdapter.tileWidthPx(INNER, GRID_H, 4, 1, true, true, D, true, 1.12f));
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hint colour for the search field, mirroring pill_text: the field's pill_bg turns near-white when the
+     field is focused, so the hint must go dark there (a fixed white hint is invisible on the white pill),
+     and stays semi-white on the dark pill when unfocused. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#FF6B6B6B" />
+    <item android:color="#80FFFFFF" />
+</selector>

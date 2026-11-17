@@ -76,6 +76,8 @@ import androidx.dynamicanimation.animation.FloatPropertyCompat;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -711,7 +713,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             int h = b - t;
             // Item height follows the tile size, which follows the columns and the rows that must fit (AppAdapter.tileWidthPx).
             int inner = (r - l) - grid.getPaddingLeft() - grid.getPaddingRight();
-            int tileW = AppAdapter.tileWidthPx(inner, h, COLUMNS, rowsBelowDock, cfg.dockTitle, cfg.dockRow, density);
+            int tileW = AppAdapter.tileWidthPx(inner, h, COLUMNS, rowsBelowDock, cfg.dockTitle, cfg.dockRow, density,
+                    cfg.alwaysShowNames, adapter.focusScale());
             int itemH = AppAdapter.itemHeightPx(AppAdapter.tileHeightPx(tileW), density);
             int dockRow = itemH + (int) (AppAdapter.DOCK_EXTRA_DP * density);   // item height plus DockDecoration offsets
             int gridRows = itemH * rowsBelowDock;
@@ -3478,8 +3481,30 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (pendingFocusScroll != null) {
             grid.removeOnScrollListener(pendingFocusScroll);
             pendingFocusScroll = null;
+            grid.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
             grid.stopScroll();
         }
+    }
+
+    /**
+     * A focus glide that always reads as a glide: the stock smooth scroller crosses a single row in ~15ms,
+     * which is a jump cut when Down leaves the dock for the apps below. Short moves get at least 280ms;
+     * longer ones keep their own (longer) duration.
+     */
+    private void smoothScrollToTile(int pos) {
+        RecyclerView.LayoutManager lm = grid.getLayoutManager();
+        if (!(lm instanceof LinearLayoutManager)) {
+            grid.smoothScrollToPosition(pos);
+            return;
+        }
+        LinearSmoothScroller scroller = new LinearSmoothScroller(grid.getContext()) {
+            @Override
+            protected int calculateTimeForScrolling(int dx) {
+                return Math.max(super.calculateTimeForScrolling(dx), 280);
+            }
+        };
+        scroller.setTargetPosition(pos);
+        lm.startSmoothScroll(scroller);
     }
 
     private void focusTile(int position) {
@@ -3515,13 +3540,18 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 rv.removeOnScrollListener(this);
                 if (pendingFocusScroll != this) return;
                 pendingFocusScroll = null;
+                // The glide blocked descendant focus so a passing tile could not steal it mid-scroll.
+                rv.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
                 RecyclerView.ViewHolder h = rv.findViewHolderForAdapterPosition(pos);
                 View target = h != null ? h.itemView.findViewById(R.id.card) : rv.getChildAt(0);
                 if (target != null) target.requestFocus();
             }
         };
         grid.addOnScrollListener(pendingFocusScroll);
-        grid.smoothScrollToPosition(pos);
+        // Block descendant focus while the grid glides: the focused dock tile scrolls off and the
+        // framework would otherwise flash focus onto a passing tile before the glide settles.
+        grid.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        smoothScrollToTile(pos);
     }
 
     // ---- top bar ---------------------------------------------------------------------------------
