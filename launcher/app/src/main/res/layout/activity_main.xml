@@ -531,7 +531,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="72dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="bottom"
                                     android:background="@drawable/bento_poster_scrim" />
 
@@ -592,7 +592,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="72dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="bottom"
                                     android:background="@drawable/bento_poster_scrim" />
 
