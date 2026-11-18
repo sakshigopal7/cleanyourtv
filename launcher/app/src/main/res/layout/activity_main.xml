@@ -447,7 +447,7 @@
                         android:layout_height="wrap_content"
                         android:text="Good evening, Ayushi and Sakshi"
                         android:textColor="#CCFFFFFF"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:fontFamily="@string/font_medium"
                         android:letterSpacing="0.02"
                         android:maxLines="2"
@@ -473,7 +473,7 @@
                         android:format12Hour="EEEE, d MMMM"
                         android:format24Hour="EEEE, d MMMM"
                         android:textColor="#99FFFFFF"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:fontFamily="@string/font_regular"
                         android:letterSpacing="0.04"
                         android:singleLine="true" />
@@ -500,7 +500,7 @@
                                 android:layout_marginStart="8dp"
                                 android:text="In cinemas"
                                 android:textColor="#B3FFFFFF"
-                                android:textSize="11sp"
+                                android:textSize="13sp"
                                 android:fontFamily="@string/font_medium"
                                 android:letterSpacing="0.22"
                                 android:textAllCaps="true" />
@@ -531,7 +531,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="56dp"
+                                    android:layout_height="72dp"
                                     android:layout_gravity="bottom"
                                     android:background="@drawable/bento_poster_scrim" />
 
@@ -550,7 +550,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColor="#FFFFFFFF"
-                                        android:textSize="11sp"
+                                        android:textSize="13sp"
                                         android:fontFamily="@string/font_medium"
                                         android:maxLines="2"
                                         android:ellipsize="end"
@@ -562,10 +562,10 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColor="#B3FFFFFF"
-                                        android:textSize="9sp"
+                                        android:textSize="11sp"
                                         android:fontFamily="@string/font_regular"
                                         android:letterSpacing="0.03"
-                                        android:maxLines="1"
+                                        android:maxLines="2"
                                         android:ellipsize="end"
                                         android:visibility="gone" />
                                 </LinearLayout>
@@ -592,7 +592,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="56dp"
+                                    android:layout_height="72dp"
                                     android:layout_gravity="bottom"
                                     android:background="@drawable/bento_poster_scrim" />
 
@@ -611,7 +611,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColor="#FFFFFFFF"
-                                        android:textSize="11sp"
+                                        android:textSize="13sp"
                                         android:fontFamily="@string/font_medium"
                                         android:maxLines="2"
                                         android:ellipsize="end"
@@ -623,10 +623,10 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColor="#B3FFFFFF"
-                                        android:textSize="9sp"
+                                        android:textSize="11sp"
                                         android:fontFamily="@string/font_regular"
                                         android:letterSpacing="0.03"
-                                        android:maxLines="1"
+                                        android:maxLines="2"
                                         android:ellipsize="end"
                                         android:visibility="gone" />
                                 </LinearLayout>
@@ -648,7 +648,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#E6FFFFFF"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:fontFamily="@string/font_regular"
                         android:letterSpacing="0.04"
                         android:singleLine="true" />
@@ -658,7 +658,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:textColor="#B3FFFFFF"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         android:fontFamily="@string/font_regular"
                         android:letterSpacing="0.04"
                         android:singleLine="true"
@@ -680,7 +680,7 @@
                     android:layout_marginStart="16dp"
                     android:text="For you · Reviewer Collective · Updated today"
                     android:textColor="#B3FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:fontFamily="@string/font_medium"
                     android:letterSpacing="0.06"
                     android:layout_marginBottom="4dp"
@@ -705,7 +705,7 @@
                     android:layout_marginStart="16dp"
                     android:text="My List"
                     android:textColor="#B3FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:fontFamily="@string/font_medium"
                     android:letterSpacing="0.06"
                     android:layout_marginTop="12dp"
