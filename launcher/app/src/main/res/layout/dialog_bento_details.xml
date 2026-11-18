@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFFFF"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:fontFamily="@string/font_medium"
             android:maxLines="2"
             android:ellipsize="end" />
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="#B3FFFFFF"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:fontFamily="@string/font_regular"
             android:singleLine="true"
             android:ellipsize="end" />
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#E6FFFFFF"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:fontFamily="@string/font_regular"
                 android:lineSpacingExtra="3dp" />
         </ScrollView>
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:background="@drawable/pill_bg"
             android:textColor="@drawable/pill_text"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:fontFamily="@string/font_medium"
             android:text="Close"
             android:focusable="true"
