@@ -117,6 +117,36 @@ public final class BentoTitle {
                 null, null, null, null, null, null, false, false, 0, null, true);
     }
 
+
+    /** TMDB ISO 639-1 code to display name; the feed carries the code ("en"),
+     * the UI must never show the code itself. Unknown codes pass through. */
+    public static String displayLanguage(String iso) {
+        if (iso == null || iso.isEmpty()) return "";
+        switch (iso.toLowerCase(java.util.Locale.US)) {
+            case "en": return "English";
+            case "hi": return "Hindi";
+            case "ta": return "Tamil";
+            case "te": return "Telugu";
+            case "ml": return "Malayalam";
+            case "kn": return "Kannada";
+            case "mr": return "Marathi";
+            case "bn": return "Bengali";
+            case "pa": return "Punjabi";
+            case "gu": return "Gujarati";
+            case "ur": return "Urdu";
+            case "es": return "Spanish";
+            case "fr": return "French";
+            case "de": return "German";
+            case "it": return "Italian";
+            case "pt": return "Portuguese";
+            case "ru": return "Russian";
+            case "ja": return "Japanese";
+            case "ko": return "Korean";
+            case "zh": return "Chinese";
+            default: return iso;
+        }
+    }
+
     /** At most two genres for the card label ("Drama · Comedy"); "" when none are known. */
     public String genreText() {
         if (genres == null || genres.isEmpty()) return "";
