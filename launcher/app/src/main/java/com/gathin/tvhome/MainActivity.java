@@ -2664,8 +2664,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (titleView != null) titleView.setText(ct.title);
         if (genreView != null) {
             String g = ct.genreText();
-            if (g.isEmpty()) genreView.setVisibility(View.GONE);
-            else { genreView.setText(g); genreView.setVisibility(View.VISIBLE); }
+            String lang = BentoTitle.displayLanguage(ct.language);
+            String line = lang.isEmpty() ? g
+                    : (g.isEmpty() ? lang : lang + " \u00b7 " + g);
+            if (line.isEmpty()) genreView.setVisibility(View.GONE);
+            else { genreView.setText(line); genreView.setVisibility(View.VISIBLE); }
         }
         if (poster != null) {
             poster.setImageDrawable(null);
@@ -2858,7 +2861,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (meta != null) {
             StringBuilder sb = new StringBuilder();
             if (title.year > 0) sb.append(title.year);
-            String lang = displayLanguage(title.language);
+            String lang = BentoTitle.displayLanguage(title.language);
             if (!lang.isEmpty()) {
                 if (sb.length() > 0) sb.append(" · ");
                 sb.append(lang);
@@ -2903,35 +2906,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         dialog.show();
         if (close != null) close.requestFocus();
-    }
-
-    /** TMDB ISO 639-1 code to display name; the feed carries the code ("en"),
-     * the UI must never show the code itself. Unknown codes pass through. */
-    private static String displayLanguage(String iso) {
-        if (iso == null || iso.isEmpty()) return "";
-        switch (iso.toLowerCase(java.util.Locale.US)) {
-            case "en": return "English";
-            case "hi": return "Hindi";
-            case "ta": return "Tamil";
-            case "te": return "Telugu";
-            case "ml": return "Malayalam";
-            case "kn": return "Kannada";
-            case "mr": return "Marathi";
-            case "bn": return "Bengali";
-            case "pa": return "Punjabi";
-            case "gu": return "Gujarati";
-            case "ur": return "Urdu";
-            case "es": return "Spanish";
-            case "fr": return "French";
-            case "de": return "German";
-            case "it": return "Italian";
-            case "pt": return "Portuguese";
-            case "ru": return "Russian";
-            case "ja": return "Japanese";
-            case "ko": return "Korean";
-            case "zh": return "Chinese";
-            default: return iso;
-        }
     }
 
     /** Slice 7: TMDB search. A dialog with a text field (on-screen keyboard on
