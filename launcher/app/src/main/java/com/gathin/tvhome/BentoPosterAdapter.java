@@ -1,5 +1,7 @@
 package com.gathin.tvhome;
 
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.KeyEvent;
@@ -23,6 +25,52 @@ import java.util.List;
  */
 public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.ViewHolder> {
     private static final long LONG_PRESS_MS = 800L;
+
+    /** Provider name -> installed app package, so the card shows the provider
+     * icon instead of the full name. Falls back to the name text when the app
+     * is not installed or the provider is unknown. */
+    private static String providerPackage(String provider) {
+        if (provider == null) return null;
+        String p = provider.toLowerCase(java.util.Locale.US);
+        if (p.contains("netflix")) return "com.netflix.ninja";
+        if (p.contains("prime")) return "com.amazon.amazonvideo.livingroom";
+        if (p.contains("apple")) return "com.apple.atve.androidtv.appletv";
+        if (p.contains("youtube")) return "com.google.android.youtube.tv";
+        if (p.contains("hotstar") || p.contains("jio")) return "in.startv.hotstar";
+        if (p.contains("disney")) return "com.disney.disneyplus";
+        if (p.contains("zee")) return "com.graymatrix.did";
+        if (p.contains("sony") || p.contains("liv")) return "com.sonyliv";
+        return null;
+    }
+
+    /** Bundled compact logo mark for a provider, when the app icon is the full
+     * wordmark (Netflix ships the whole NETFLIX wordmark as its launcher icon;
+     * the red N is the compact mark that belongs in a card corner). 0 = none. */
+    private static int providerLogoRes(String provider) {
+        if (provider == null) return 0;
+        String p = provider.toLowerCase(java.util.Locale.US);
+        if (p.contains("netflix")) return R.drawable.ic_netflix_n;
+        return 0;
+    }
+
+    private static Drawable providerIcon(android.content.Context ctx, String provider) {
+        int res = providerLogoRes(provider);
+        if (res != 0) {
+            try {
+                return ctx.getResources().getDrawable(res, null);
+            } catch (Exception e) {
+                // fall through to the app icon
+            }
+        }
+        String pkg = providerPackage(provider);
+        if (pkg == null) return null;
+        try {
+            return ctx.getPackageManager().getApplicationIcon(pkg);
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
+    }
+
 
     public interface OnPosterKeyListener {
         boolean onPosterKey(int position, BentoTitle title, int keyCode, KeyEvent event, View view);
@@ -113,9 +161,18 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
             holder.title.setMaxLines(2);
             holder.title.setText(title.title);
             if (title.provider != null) {
-                holder.platform.setText(title.provider);
-                holder.platform.setVisibility(View.VISIBLE);
+                Drawable icon = providerIcon(holder.itemView.getContext(), title.provider);
+                if (icon != null) {
+                    holder.platformIcon.setImageDrawable(icon);
+                    holder.platformIcon.setVisibility(View.VISIBLE);
+                    holder.platform.setVisibility(View.GONE);
+                } else {
+                    holder.platformIcon.setVisibility(View.GONE);
+                    holder.platform.setText(title.provider);
+                    holder.platform.setVisibility(View.VISIBLE);
+                }
             } else {
+                holder.platformIcon.setVisibility(View.GONE);
                 holder.platform.setVisibility(View.GONE);
             }
             if (title.isInMyList && showMyListBadge) {
@@ -129,10 +186,13 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
             }
             holder.posterNew.setVisibility(title.isNewToday() ? View.VISIBLE : View.GONE);
             String genreText = title.genreText();
-            if (genreText.isEmpty()) {
+            String lang = BentoTitle.displayLanguage(title.language);
+            String line = lang.isEmpty() ? genreText
+                    : (genreText.isEmpty() ? lang : lang + " \u00b7 " + genreText);
+            if (line.isEmpty()) {
                 holder.genre.setVisibility(View.GONE);
             } else {
-                holder.genre.setText(genreText);
+                holder.genre.setText(line);
                 holder.genre.setVisibility(View.VISIBLE);
             }
             BentoPosterLoader.get(holder.itemView.getContext()).loadPoster(title.posterUrl, holder.image);
@@ -210,6 +270,7 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
         final TextView title;
         final TextView badge;
         final TextView platform;
+        final ImageView platformIcon;
         final TextView posterNew;
         final TextView genre;
         boolean clickBlocked = false;
@@ -221,6 +282,7 @@ public class BentoPosterAdapter extends RecyclerView.Adapter<BentoPosterAdapter.
             title = itemView.findViewById(R.id.posterTitle);
             badge = itemView.findViewById(R.id.posterBadge);
             platform = itemView.findViewById(R.id.posterPlatform);
+            platformIcon = itemView.findViewById(R.id.posterPlatformIcon);
             posterNew = itemView.findViewById(R.id.posterNew);
             genre = itemView.findViewById(R.id.posterGenre);
         }
