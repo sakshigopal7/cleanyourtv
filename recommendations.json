@@ -1,9 +1,51 @@
 {
-  "count": 14,
-  "generated_at": "2026-11-18T07:07:08.955283+08:00",
+  "count": 15,
+  "generated_at": "2026-11-19T06:55:55.513953+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82023389?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82023389?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/jM5dhDrpRiVxuzcvAEeHhcAKt50.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/jM5dhDrpRiVxuzcvAEeHhcAKt50.jpg",
+      "first_seen": "2026-11-19",
+      "genres": [
+        "Crime",
+        "Mystery",
+        "Drama"
+      ],
+      "imdb_id": null,
+      "language": "es",
+      "last_seen": "2026-11-19",
+      "media_type": "tv",
+      "overview": "In Pazos, Irene is brutally attacked, and Civil Guard sergeant Elías suspects her husband Aniceto, racing against time to uncover the truth before it’s too late.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4065870946888879/",
+      "poster_path": "/pk7ewQL2vAxtit0YmDEURmAInS9.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/pk7ewQL2vAxtit0YmDEURmAInS9.jpg",
+      "title": "Murder in Galicia",
+      "tmdb_id": 303182,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
     {
       "availability": [
         {
@@ -35,7 +77,7 @@
       ],
       "imdb_id": "tt38265603",
       "language": "ml",
-      "last_seen": "2026-11-18",
+      "last_seen": "2026-11-19",
       "media_type": "movie",
       "overview": "After her husband's tragic death, Aleena joins the police force through a compassionate appointment. What begins as a quiet new chapter soon turns into a high-stakes battle of wits and courage, testing everything she believes about justice, loyalty, and herself.",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4065910606884913/",
@@ -396,7 +438,7 @@
       ],
       "imdb_id": "tt27995113",
       "language": "en",
-      "last_seen": "2026-11-18",
+      "last_seen": "2026-11-19",
       "media_type": "tv",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059952704147370/",
       "poster_path": "/srlsyEfIBz2MNWBndVc3opOaNGS.jpg",
@@ -498,7 +540,7 @@
       ],
       "imdb_id": null,
       "language": "fr",
-      "last_seen": "2026-11-16",
+      "last_seen": "2026-11-19",
       "media_type": "movie",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4058655460943761/",
       "poster_path": "/5gLUXJZzyL1GQAAGdfnz1KEH8gj.jpg",
