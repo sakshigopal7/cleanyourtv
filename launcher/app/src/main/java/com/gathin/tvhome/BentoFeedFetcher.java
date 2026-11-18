@@ -46,8 +46,13 @@ public final class BentoFeedFetcher {
     public static void refresh(Context ctx, Callback cb) {
         SharedPreferences prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         long last = prefs.getLong(KEY_LAST_ATTEMPT_MS, 0);
-        if (System.currentTimeMillis() - last < REFRESH_MS) return;
-        prefs.edit().putLong(KEY_LAST_ATTEMPT_MS, System.currentTimeMillis()).apply();
+        long now = System.currentTimeMillis();
+        Log.d(TAG, "refresh() called, last_attempt_ms=" + last + ", now=" + now);
+        // A stored attempt time in the future (the clock jumped forward and back,
+        // or was set ahead when the attempt was recorded) would make the throttle
+        // skip forever, since now - last stays negative. Treat it as stale.
+        if (last > 0 && last <= now && now - last < REFRESH_MS) return;
+        prefs.edit().putLong(KEY_LAST_ATTEMPT_MS, now).apply();
         final String etag = prefs.getString(KEY_ETAG, null);
         final String lastModified = prefs.getString(KEY_LAST_MODIFIED, null);
         final Context appCtx = ctx.getApplicationContext();
@@ -59,8 +64,14 @@ public final class BentoFeedFetcher {
         }).start();
     }
 
+    /** A failed fetch must not poison the hourly throttle: clear the attempt so the next resume retries. */
+    private static void clearLastAttempt(Context ctx) {
+        ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().remove(KEY_LAST_ATTEMPT_MS).apply();
+    }
+
     /** Returns true when a new, valid feed replaced the cached copy. */
     static boolean fetchAndStore(Context ctx, String etag, String lastModified) {
+        Log.d(TAG, "fetchAndStore started, etag=" + etag);
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) new URL(FEED_URL).openConnection();
@@ -77,6 +88,7 @@ public final class BentoFeedFetcher {
             }
             if (code != HttpURLConnection.HTTP_OK) {
                 Log.w(TAG, "feed fetch HTTP " + code + ", keeping last good");
+                clearLastAttempt(ctx);
                 return false;
             }
             StringBuilder sb = new StringBuilder();
@@ -87,6 +99,7 @@ public final class BentoFeedFetcher {
             String body = sb.toString();
             if (!isValidFeed(body)) {
                 Log.w(TAG, "feed failed validation, keeping last good");
+                clearLastAttempt(ctx);
                 return false;
             }
             BentoStore.writeAtomicFile(new File(ctx.getFilesDir(), BentoStore.FILE_RECOMMENDATIONS), body);
@@ -100,6 +113,7 @@ public final class BentoFeedFetcher {
             return true;
         } catch (Exception e) {
             Log.w(TAG, "feed fetch failed, keeping last good", e);
+            clearLastAttempt(ctx);
             return false;
         } finally {
             if (conn != null) conn.disconnect();
