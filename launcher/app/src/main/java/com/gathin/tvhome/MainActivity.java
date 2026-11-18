@@ -2542,6 +2542,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     }
 
     private void refreshBentoFeed() {
+        android.util.Log.d("TvHome.BentoFeed", "refreshBentoFeed() called, forYouAdapter=" + (forYouAdapter == null ? "null" : "set"));
         if (forYouAdapter == null) return;
         BentoFeedFetcher.refresh(this, () -> {
             loadBentoData();
