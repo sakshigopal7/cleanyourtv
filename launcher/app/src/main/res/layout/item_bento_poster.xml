@@ -20,7 +20,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="76dp"
         android:layout_gravity="bottom"
         android:background="@drawable/bento_poster_scrim" />
 
@@ -82,8 +82,8 @@
 
         <ImageView
             android:id="@+id/posterPlatformIcon"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginEnd="4dp"
             android:scaleType="fitCenter"
             android:importantForAccessibility="no"
