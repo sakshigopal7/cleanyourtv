@@ -1,9 +1,134 @@
 {
-  "count": 15,
-  "generated_at": "2026-11-19T06:55:55.513953+08:00",
+  "count": 18,
+  "generated_at": "2026-11-20T06:56:28.735947+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/70259085?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/70259085?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/5faqsJ8TMT0IhkZ1xgD6PEWm8xm.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/5faqsJ8TMT0IhkZ1xgD6PEWm8xm.jpg",
+      "first_seen": "2026-11-20",
+      "genres": [
+        "Comedy",
+        "Drama",
+        "Family"
+      ],
+      "imdb_id": "tt2181931",
+      "language": "hi",
+      "last_seen": "2026-11-20",
+      "media_type": "movie",
+      "overview": "In the United States for the first time, an Indian housewife with a limited command of English turns Manhattan into her personal language school.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4068146559994651/",
+      "poster_path": "/ccEVR8sf18psGH5daio9y7OGu93.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/ccEVR8sf18psGH5daio9y7OGu93.jpg",
+      "title": "English Vinglish",
+      "tmdb_id": 118628,
+      "tmdb_type": "movie",
+      "year": 2012
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81996126?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81996126?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/bjt53Hjqwl9VrtJkDv39GwmE1QN.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/bjt53Hjqwl9VrtJkDv39GwmE1QN.jpg",
+      "first_seen": "2026-11-20",
+      "genres": [
+        "Action",
+        "Crime",
+        "Thriller"
+      ],
+      "imdb_id": "tt39370926",
+      "language": "id",
+      "last_seen": "2026-11-20",
+      "media_type": "movie",
+      "overview": "When a deadly gang descends on his remote home, a guilt-ridden veteran and the estranged grandchildren he barely knows must unite to survive.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4068119386664035/",
+      "poster_path": "/hKROmLddpzpjkxKKVFYFRAOXX1b.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/hKROmLddpzpjkxKKVFYFRAOXX1b.jpg",
+      "title": "Never Surrender",
+      "tmdb_id": 1616687,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83120594?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/83120594?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "netflix_live_page_verified",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/3NA7FxkqAaG1buZC1WtdPDpMlZg.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/3NA7FxkqAaG1buZC1WtdPDpMlZg.jpg",
+      "first_seen": "2026-11-20",
+      "genres": [
+        "Comedy",
+        "Documentary"
+      ],
+      "imdb_id": null,
+      "language": "en",
+      "last_seen": "2026-11-20",
+      "media_type": "tv",
+      "overview": "Philomena Cunk asks experts all of the hard-hitting questions about the history of cinema, from the invention of the camera, to the New Wave filmmakers of the 60s, right up to the entrance of CGI and what the future of AI holds. Cunk will attempt to demystify it all while sitting in lumpy seats with stale popcorn, asking herself where did cinema come from? And why? What does it want? And why can't it tell us?",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4067835276692446/",
+      "poster_path": "/zrrRRvavkLQupkC6aEkdA8sX4E8.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/zrrRRvavkLQupkC6aEkdA8sX4E8.jpg",
+      "title": "Cunk on Cinema",
+      "tmdb_id": 335981,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
     {
       "availability": [
         {
@@ -200,7 +325,7 @@
       ],
       "imdb_id": "tt4434004",
       "language": "hi",
-      "last_seen": "2026-11-17",
+      "last_seen": "2026-11-20",
       "media_type": "movie",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4064747837001190/",
       "poster_path": "/c7BXGhHwvK1AfDCmfPTtw5LsuIU.jpg",
@@ -272,7 +397,7 @@
       ],
       "imdb_id": null,
       "language": "ta",
-      "last_seen": "2026-11-17",
+      "last_seen": "2026-11-20",
       "media_type": "movie",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4063544090454898/",
       "poster_path": "/7wHBYs8HHmTGe4nXLpMEAoDSK2o.jpg",
@@ -469,7 +594,7 @@
       ],
       "imdb_id": null,
       "language": "ta",
-      "last_seen": "2026-11-16",
+      "last_seen": "2026-11-20",
       "media_type": "movie",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059343557541618/",
       "poster_path": "/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
