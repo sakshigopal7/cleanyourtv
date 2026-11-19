@@ -21,7 +21,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 24
-        versionName '3.13'
+        versionName '3.15'
 
         // TMDB API key for on-TV search (same key as the daily pipeline).
         // local.properties lives at the repo root; the module dir is the fallback.
