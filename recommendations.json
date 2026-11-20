@@ -1,9 +1,132 @@
 {
-  "count": 18,
-  "generated_at": "2026-11-20T06:56:28.735947+08:00",
+  "count": 21,
+  "generated_at": "2026-11-21T07:02:56.696141+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80166185?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixboss_netflix_id",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80166185?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixboss_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/l0fNAHLOFReQJsxCOmGWvJDnimn.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/l0fNAHLOFReQJsxCOmGWvJDnimn.jpg",
+      "first_seen": "2026-11-21",
+      "genres": [
+        "Drama",
+        "Family",
+        "Comedy"
+      ],
+      "imdb_id": "tt5074352",
+      "language": "hi",
+      "last_seen": "2026-11-21",
+      "media_type": "movie",
+      "overview": "Dangal is an extraordinary true story based on the life of Mahavir Singh and his two daughters, Geeta and Babita Phogat. The film traces the inspirational journey of a father who trains his daughters to become world class wrestlers.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4071143173028323/",
+      "poster_path": "/cJRPOLEexI7qp2DKtFfCh7YaaUG.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/cJRPOLEexI7qp2DKtFfCh7YaaUG.jpg",
+      "title": "Dangal",
+      "tmdb_id": 360814,
+      "tmdb_type": "movie",
+      "year": 2016
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80999070?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixboss_netflix_id",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/80999070?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "flixboss_netflix_id",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/3spBT6tCcEJCBMDFEsFp83ueArg.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/3spBT6tCcEJCBMDFEsFp83ueArg.jpg",
+      "first_seen": "2026-11-21",
+      "genres": [
+        "Crime",
+        "Drama"
+      ],
+      "imdb_id": null,
+      "language": "ko",
+      "last_seen": "2026-11-21",
+      "media_type": "tv",
+      "overview": "Park Jung-Woo is a prosecutor at Seoul Central District Prosecutors' Office. One day, he wakes up and finds himself in locked up at the police station. He has temporary amnesia. Park Jung-Woo is falsely accused and is sentenced to death. He must struggle to prove his innocence.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4070410956434878/",
+      "poster_path": "/qoFTJi6b5Q5eNOArLOTe1Hi1fui.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/qoFTJi6b5Q5eNOArLOTe1Hi1fui.jpg",
+      "title": "Defendant",
+      "tmdb_id": 68890,
+      "tmdb_type": "tv",
+      "year": 2017
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82106490?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/82106490?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "tmdb_homepage",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/k0BY5D4Ya6NHhsvNYMmaabpvUtS.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/k0BY5D4Ya6NHhsvNYMmaabpvUtS.jpg",
+      "first_seen": "2026-11-21",
+      "genres": [
+        "Drama"
+      ],
+      "imdb_id": "tt37803364",
+      "language": "ko",
+      "last_seen": "2026-11-21",
+      "media_type": "movie",
+      "overview": "A laid-off worker and his wife cross paths with a documentary filmmaker and her spouse and confront their hidden desires.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4069779876497986/",
+      "poster_path": "/1ERGPNiKtnEcsvJS1ywsmqmcIDO.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/1ERGPNiKtnEcsvJS1ywsmqmcIDO.jpg",
+      "title": "Possible Love",
+      "tmdb_id": 1483525,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
     {
       "availability": [
         {
