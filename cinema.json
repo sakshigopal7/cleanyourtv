@@ -1,7 +1,22 @@
 {
-  "notes": "Verified screening in Singapore on 2026-11-22 via Shaw / Golden Village Singapore listings.",
+  "notes": "Verified screening in Singapore on 2026-11-23 via Shaw / Golden Village Singapore listings.",
   "source": "reviewer-collective",
   "titles": [
+    {
+      "genres": [
+        "Science Fiction",
+        "Horror",
+        "Action"
+      ],
+      "language": "Japanese",
+      "overview": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant. There is no third time. Everything ends here.",
+      "poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
+      "rating": 7.7,
+      "runtime_minutes": 135,
+      "title": "Godzilla Minus Zero",
+      "tmdb_id": 1381071,
+      "year": 2026
+    },
     {
       "genres": [
         "Fantasy",
@@ -16,24 +31,8 @@
       "title": "Ramayana Part 1",
       "tmdb_id": 656908,
       "year": 2026
-    },
-    {
-      "genres": [
-        "Animation",
-        "Adventure",
-        "Drama",
-        "Fantasy"
-      ],
-      "language": "English",
-      "overview": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra.",
-      "poster_path": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
-      "rating": 8.4,
-      "runtime_minutes": 132,
-      "title": "Wildwood",
-      "tmdb_id": 791523,
-      "year": 2026
     }
   ],
-  "verified_on": "2026-11-22",
+  "verified_on": "2026-11-23",
   "verified_via": "Shaw / Golden Village Singapore listings"
 }
