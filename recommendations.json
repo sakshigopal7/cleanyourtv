@@ -1,9 +1,51 @@
 {
-  "count": 21,
-  "generated_at": "2026-11-22T06:53:38.121171+08:00",
+  "count": 22,
+  "generated_at": "2026-11-23T06:54:59.162691+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81768820?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81768820?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/z6mnJhvFbAgM1UTL87NWjJLhK26.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/z6mnJhvFbAgM1UTL87NWjJLhK26.jpg",
+      "first_seen": "2026-11-23",
+      "genres": [
+        "Drama",
+        "Crime",
+        "Mystery"
+      ],
+      "imdb_id": null,
+      "language": "sv",
+      "last_seen": "2026-11-23",
+      "media_type": "tv",
+      "overview": "Following the brutal murder of two police officers, a tenacious detective reluctantly joins forces with his estranged ex-cop father to catch the killer.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4074468322695808/",
+      "poster_path": "/wSdrhB8NuTYuSsqbfiQA7izOYhw.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/wSdrhB8NuTYuSsqbfiQA7izOYhw.jpg",
+      "title": "Blood Sacrifice",
+      "tmdb_id": 303351,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
     {
       "availability": [
         {
