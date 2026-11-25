@@ -1,7 +1,22 @@
 {
-  "notes": "Verified screening in Singapore on 2026-11-25 via Shaw / Golden Village Singapore listings.",
+  "notes": "Verified screening in Singapore on 2026-11-26 via Shaw / Golden Village Singapore listings.",
   "source": "reviewer-collective",
   "titles": [
+    {
+      "genres": [
+        "Fantasy",
+        "Action",
+        "Adventure"
+      ],
+      "language": "Hindi",
+      "overview": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead.",
+      "poster_path": "/vBQ7wks68OhJKlb3RnXSl2yXBXK.jpg",
+      "rating": 7.5,
+      "runtime_minutes": 195,
+      "title": "Ramayana Part 1",
+      "tmdb_id": 656908,
+      "year": 2026
+    },
     {
       "genres": [
         "Science Fiction",
@@ -16,23 +31,8 @@
       "title": "Godzilla Minus Zero",
       "tmdb_id": 1381071,
       "year": 2026
-    },
-    {
-      "genres": [
-        "Fantasy",
-        "Action",
-        "Adventure"
-      ],
-      "language": "Hindi",
-      "overview": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead.",
-      "poster_path": "/vBQ7wks68OhJKlb3RnXSl2yXBXK.jpg",
-      "rating": 7.3,
-      "runtime_minutes": 195,
-      "title": "Ramayana Part 1",
-      "tmdb_id": 656908,
-      "year": 2026
     }
   ],
-  "verified_on": "2026-11-25",
+  "verified_on": "2026-11-26",
   "verified_via": "Shaw / Golden Village Singapore listings"
 }
