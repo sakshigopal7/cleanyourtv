@@ -1,9 +1,91 @@
 {
-  "count": 24,
-  "generated_at": "2026-11-25T06:56:23.684207+08:00",
+  "count": 26,
+  "generated_at": "2026-11-26T06:53:53.420419+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81681910?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81681910?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/m8JTMj7jDMJFZAPP1ASmSi4gMWi.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/m8JTMj7jDMJFZAPP1ASmSi4gMWi.jpg",
+      "first_seen": "2026-11-26",
+      "genres": [
+        "Crime",
+        "Drama"
+      ],
+      "imdb_id": null,
+      "language": "en",
+      "last_seen": "2026-11-26",
+      "media_type": "tv",
+      "overview": "The story of Sam Bankman-Fried and Caroline Ellison, two hyper-smart, ambitious young idealists who tried to remake the global financial system in the blink of an eye - before they were accused of stealing $8 billion and became Gen Z's own Bonnie & Clyde.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4082301198579187/",
+      "poster_path": "/hiX70sXdvEPVE11QqmLuaX16gdh.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/hiX70sXdvEPVE11QqmLuaX16gdh.jpg",
+      "title": "The Altruists",
+      "tmdb_id": 308007,
+      "tmdb_type": "tv",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Apple TV",
+          "provider_url": "https://tv.apple.com/us/show/servant/umc.cmc.4y25wuby7pck9o6vaubbbk7gb",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_apple_tv_page",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Apple TV",
+          "provider_url": "https://tv.apple.com/us/show/servant/umc.cmc.4y25wuby7pck9o6vaubbbk7gb",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_apple_tv_page",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/7nsRpSCYcDGLcDmFAISHC8zMQ0D.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/7nsRpSCYcDGLcDmFAISHC8zMQ0D.jpg",
+      "first_seen": "2026-11-26",
+      "genres": [
+        "Drama",
+        "Mystery"
+      ],
+      "imdb_id": null,
+      "language": "en",
+      "last_seen": "2026-11-26",
+      "media_type": "tv",
+      "overview": "A Philadelphia couple are in mourning after an unspeakable tragedy creates a rift in their marriage and opens the door for a mysterious force to enter their home.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4081569551985685/",
+      "poster_path": "/plsSSobmPSSz4hm8vYMXeIVkJJP.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/plsSSobmPSSz4hm8vYMXeIVkJJP.jpg",
+      "title": "Servant",
+      "tmdb_id": 88055,
+      "tmdb_type": "tv",
+      "year": 2019
+    },
     {
       "availability": [
         {
