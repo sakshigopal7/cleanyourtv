@@ -1,9 +1,51 @@
 {
-  "count": 26,
-  "generated_at": "2026-11-26T06:53:53.420419+08:00",
+  "count": 27,
+  "generated_at": "2026-11-27T06:52:49.034403+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81507921?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Netflix",
+          "provider_url": "https://www.netflix.com/title/81507921?source=30",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "agent_verified_live_netflix_page",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/hpXBJxLD2SEf8l2CspmSeiHrBKX.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/hpXBJxLD2SEf8l2CspmSeiHrBKX.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Drama",
+        "Fantasy",
+        "Horror"
+      ],
+      "imdb_id": "tt1312221",
+      "language": "en",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "Dr. Victor Frankenstein, a brilliant but egotistical scientist, brings a creature to life in a monstrous experiment that ultimately leads to the undoing of both the creator and his tragic creation.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4083498515126122/",
+      "poster_path": "/g4JtvGlQO7DByTI6frUobqvSL3R.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/g4JtvGlQO7DByTI6frUobqvSL3R.jpg",
+      "title": "Frankenstein",
+      "tmdb_id": 1062722,
+      "tmdb_type": "movie",
+      "year": 2025
+    },
     {
       "availability": [
         {
