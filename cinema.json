@@ -1,38 +1,36 @@
 {
-  "notes": "Verified screening in Singapore on 2026-11-27 via Shaw / Golden Village Singapore listings.",
+  "notes": "Verified screening in Singapore on 2026-11-28 via Shaw / Golden Village Singapore listings. Not listed: Sadhak Bamakhyapa (no Singapore cinema listing found).",
   "source": "reviewer-collective",
   "titles": [
     {
       "genres": [
-        "Science Fiction",
-        "Horror",
-        "Action"
+        "Romance",
+        "Family",
+        "Drama"
       ],
-      "language": "Japanese",
-      "overview": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant. There is no third time. Everything ends here.",
-      "poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
-      "rating": 7.7,
-      "runtime_minutes": 135,
-      "title": "Godzilla Minus Zero",
-      "tmdb_id": 1381071,
+      "language": "Hindi",
+      "overview": "A heartfelt romantic family drama about two best friends whose close bond slowly turns into love. But one lie creates misunderstandings and conflicts, putting their relationship and family bonds to the test. The story explores love, sacrifice, understanding and the importance of family.",
+      "poster_path": "/dtI3xTdEPmBiIPXLDgDxNKHCkDV.jpg",
+      "rating": 0,
+      "runtime_minutes": 173,
+      "title": "Yeh Prem Mol Liya",
+      "tmdb_id": 1209723,
       "year": 2026
     },
     {
       "genres": [
-        "Fantasy",
-        "Action",
-        "Adventure"
+        "Documentary"
       ],
-      "language": "Hindi",
-      "overview": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead.",
-      "poster_path": "/vBQ7wks68OhJKlb3RnXSl2yXBXK.jpg",
-      "rating": 7.5,
-      "runtime_minutes": 195,
-      "title": "Ramayana Part 1",
-      "tmdb_id": 656908,
+      "language": "English",
+      "overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
+      "poster_path": "/mVh3qkw2NUFxWWyF0G1hg2Wh0K5.jpg",
+      "rating": 8.6,
+      "runtime_minutes": 175,
+      "title": "You Can See Everything",
+      "tmdb_id": 1765072,
       "year": 2026
     }
   ],
-  "verified_on": "2026-11-27",
+  "verified_on": "2026-11-28",
   "verified_via": "Shaw / Golden Village Singapore listings"
 }
