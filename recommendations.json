@@ -1,9 +1,40 @@
 {
   "count": 30,
-  "generated_at": "2026-11-27T10:16:29.592192+08:00",
+  "generated_at": "2026-11-28T06:57:20.694975+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/msUldjtEid6fPviCJi8M9zw73dP.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/msUldjtEid6fPviCJi8M9zw73dP.jpg",
+      "first_seen": "2026-11-28",
+      "genres": [
+        "Drama"
+      ],
+      "imdb_id": "tt7618184",
+      "language": "hi",
+      "last_seen": "2026-11-28",
+      "media_type": "movie",
+      "overview": "The youngest son of a Muslim family settled in Benaras gets involved in terrorist activities, leading to a bomb blast massacre. His actions have an adverse effect on the family who are left to defend themselves as people who are innocent and not anti-nationals.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4084434578365849/",
+      "poster_path": "/2ylI1irPUIn0sz0f8I3Z2QtbJ24.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/2ylI1irPUIn0sz0f8I3Z2QtbJ24.jpg",
+      "title": "Mulk",
+      "tmdb_id": 526090,
+      "tmdb_type": "movie",
+      "year": 2018
+    },
     {
       "availability": [
         {
@@ -637,7 +668,7 @@
       ],
       "imdb_id": "tt39370926",
       "language": "id",
-      "last_seen": "2026-11-20",
+      "last_seen": "2026-11-28",
       "media_type": "movie",
       "overview": "When a deadly gang descends on his remote home, a guilt-ridden veteran and the estranged grandchildren he barely knows must unite to survive.",
       "post_url": "https://facebook.com/groups/1744693935673270/permalink/4068119386664035/",
@@ -1132,37 +1163,6 @@
       "tmdb_id": 225385,
       "tmdb_type": "tv",
       "year": 2024
-    },
-    {
-      "availability": [
-        {
-          "country": "SG",
-          "provider": "Netflix",
-          "provider_url": "https://www.netflix.com/title/83238479?source=30",
-          "requires_vpn": null,
-          "type": "sub",
-          "url_source": "netflix_trailer_description",
-          "vpn_label": null
-        }
-      ],
-      "backdrop_path": "/wlJmF47IHYwzVpG1qA6aYA0UHj.jpg",
-      "backdrop_url": "https://image.tmdb.org/t/p/w780/wlJmF47IHYwzVpG1qA6aYA0UHj.jpg",
-      "first_seen": "2026-11-14",
-      "genres": [
-        "Crime",
-        "Drama"
-      ],
-      "imdb_id": null,
-      "language": "ta",
-      "last_seen": "2026-11-20",
-      "media_type": "movie",
-      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4059343557541618/",
-      "poster_path": "/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
-      "poster_url": "https://image.tmdb.org/t/p/w342/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
-      "title": "Dorothy",
-      "tmdb_id": 1578079,
-      "tmdb_type": "movie",
-      "year": 2026
     }
   ]
 }
