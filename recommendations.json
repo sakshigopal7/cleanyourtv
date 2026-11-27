@@ -1,9 +1,199 @@
 {
-  "count": 27,
-  "generated_at": "2026-11-27T06:52:49.034403+08:00",
+  "count": 32,
+  "generated_at": "2026-11-27T10:09:55.372608+08:00",
   "source": "reviewer-collective",
   "source_group_id": "1744693935673270",
   "titles": [
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/40Ta26H37lc67c5HXjD8TyDo3CM.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/40Ta26H37lc67c5HXjD8TyDo3CM.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Drama"
+      ],
+      "imdb_id": "tt40856286",
+      "language": "hi",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "A clueless slacker and his by-the-book best friend -- two men who can barely manage their own lives -- find the fate of the nation in their hands when they accidentally stumble into a terrorist conspiracy.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4081343902008250/",
+      "poster_path": "/y6S1EYJvM8r2kz11RmPa72XLe8S.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/y6S1EYJvM8r2kz11RmPa72XLe8S.jpg",
+      "title": "Vibe",
+      "tmdb_id": 1654566,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/uUWSjtMgt5hh73pB3GrNBv7FFLd.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/uUWSjtMgt5hh73pB3GrNBv7FFLd.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Drama",
+        "Family"
+      ],
+      "imdb_id": "tt27866861",
+      "language": "hi",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "'Sometimes life gives us a second chance,' and for Arjun settled in the USA in pursuit of The American Dream, it's an opportunity to rediscover and embrace precious relationships, especially with his daughter as they both try to navigate through whatever life throws at them. Whatever!",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4081189885356985/",
+      "poster_path": "/rqzv36dIy15ZdJvud02mYKKCRyT.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/rqzv36dIy15ZdJvud02mYKKCRyT.jpg",
+      "title": "I Want to Talk",
+      "tmdb_id": 1263031,
+      "tmdb_type": "movie",
+      "year": 2024
+    },
+    {
+      "availability": [
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/ut4V8JMXlj7L5qX8jSXbKMY6WT3.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/ut4V8JMXlj7L5qX8jSXbKMY6WT3.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Romance",
+        "Comedy",
+        "Drama"
+      ],
+      "imdb_id": "tt6857166",
+      "language": "en",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "Four lifelong friends decide that their lives could change by becoming nasty and reading Fifty Shades of Grey in their monthly book club to get inspiration on how to handle sexual pleasure at an elderly age.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4074601559349151/",
+      "poster_path": "/6ORGBbOA45pfKQXvntPf46NoFGO.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/6ORGBbOA45pfKQXvntPf46NoFGO.jpg",
+      "title": "Book Club",
+      "tmdb_id": 502682,
+      "tmdb_type": "movie",
+      "year": 2018
+    },
+    {
+      "availability": [
+        {
+          "country": "SG",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        },
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/uxGoKyTnXylK5M4z1hyyaWbmBV7.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/uxGoKyTnXylK5M4z1hyyaWbmBV7.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Action",
+        "Comedy",
+        "Drama"
+      ],
+      "imdb_id": "tt33318732",
+      "language": "ta",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "When a dangerous syndicate threatens his family, retired jailer Tiger Muthuvel Pandian goes undercover as a driver to battle enemies from the shadows.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4072467376229236/",
+      "poster_path": "/upwdEyhhYZ7pT2hD535fr2MGfpx.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/upwdEyhhYZ7pT2hD535fr2MGfpx.jpg",
+      "title": "Jailer 2",
+      "tmdb_id": 1234139,
+      "tmdb_type": "movie",
+      "year": 2026
+    },
+    {
+      "availability": [
+        {
+          "country": "IN",
+          "provider": "Amazon Prime Video",
+          "provider_url": "https://app.primevideo.com/",
+          "requires_vpn": null,
+          "type": "sub",
+          "url_source": "prime_home_fallback",
+          "vpn_label": null
+        }
+      ],
+      "backdrop_path": "/nAHVbVYr2ZziJVXvlcNi7FOg3d3.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/w780/nAHVbVYr2ZziJVXvlcNi7FOg3d3.jpg",
+      "first_seen": "2026-11-27",
+      "genres": [
+        "Drama",
+        "Romance"
+      ],
+      "imdb_id": "tt0086230",
+      "language": "hi",
+      "last_seen": "2026-11-27",
+      "media_type": "movie",
+      "overview": "A head injury causes a woman to regress to childhood. Lost and confused, she is eventually befriended by a school teacher. A Hindi remake of the 1982 film \"Moondram Pirai\" by the same team.",
+      "post_url": "https://facebook.com/groups/1744693935673270/permalink/4066078253534815/",
+      "poster_path": "/5XJpcUUM3uN2QyGJowL1awY4mTX.jpg",
+      "poster_url": "https://image.tmdb.org/t/p/w342/5XJpcUUM3uN2QyGJowL1awY4mTX.jpg",
+      "title": "Sadma",
+      "tmdb_id": 54357,
+      "tmdb_type": "movie",
+      "year": 1983
+    },
     {
       "availability": [
         {
